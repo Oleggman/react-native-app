@@ -1,54 +1,42 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
-import AddPhotoBox from "../logos/add-photo.svg";
+import { useState } from "react";
 
 export const RegistrationForm = () => {
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onRegister = () => {
+    console.log(`Credentials: ${login}, ${email}, ${password}`);
+    setLogin("");
+    setEmail("");
+    setPassword("");
+  };
+
   return (
-    <View style={styles.container}>
-      <AddPhotoBox style={styles.addPhotoBox} width={132} height={120} />
-      <Text style={styles.title}>Реєстрація</Text>
-      <TextInput style={styles.input} placeholder="Логін" />
-      <TextInput style={styles.input} placeholder="Адреса електронної пошти" />
+    <View style={styles.inputBox}>
+      <TextInput value={login} onChangeText={setLogin} style={styles.input} placeholder="Логін" />
+      <TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder="Адреса електронної пошти" />
       <View>
-        <TextInput style={styles.input} placeholder="Пароль" />
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
+          placeholder="Пароль"
+        />
         <Pressable style={styles.showButton}>
           <Text>Показати</Text>
         </Pressable>
       </View>
-
-      <Pressable style={styles.button}>
+      <Pressable onPress={onRegister} style={styles.button}>
         <Text style={styles.buttonText}>Зареєструватися</Text>
-      </Pressable>
-
-      <Pressable>
-        <Text style={styles.loginBtn}>Вже є акаунт? Увійти</Text>
       </Pressable>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    maxHeight: 549,
-    height: "100%",
-    backgroundColor: "#fff",
-    borderRadius: "25px 25px 0px 0px",
-    marginTop: "auto",
-    overflow: "visible",
-  },
-  addPhotoBox: {
-    position: "absolute",
-    left: "35%",
-    top: "-12%",
-  },
-  title: {
-    marginTop: 80,
-    color: "#212121",
-    textAlign: "center",
-    fontFamily: "Roboto500",
-    fontSize: 30,
-    letterSpacing: 0.3,
-    marginBottom: 32,
-  },
   inputBox: {
     justifyContent: "center",
   },
@@ -58,7 +46,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#f6f6f6",
     borderRadius: 10,
-    color: "#BDBDBD",
+    color: "#000",
     fontFamily: "Roboto400",
     fontSize: 16,
     paddingLeft: 16,
@@ -84,10 +72,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto400",
     textAlign: "center",
-  },
-  loginBtn: {
-    fontSize: 16,
-    color: "#1B4371",
-    fontFamily: "Roboto400",
   },
 });
