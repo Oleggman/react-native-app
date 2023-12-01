@@ -1,4 +1,5 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
 export const RegistrationForm = () => {
@@ -6,11 +7,14 @@ export const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigation = useNavigation();
+
   const onRegister = () => {
     console.log(`Credentials: ${login}, ${email}, ${password}`);
     setLogin("");
     setEmail("");
     setPassword("");
+    navigation.navigate("Home", { screen: "PostsScreen" });
   };
 
   return (

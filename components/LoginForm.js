@@ -1,14 +1,18 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigation = useNavigation();
+
   const onLogin = () => {
     console.log(`Credentials: ${email}, ${password}`);
     setEmail("");
     setPassword("");
+    navigation.navigate("Home", { screen: "PostsScreen" });
   };
 
   return (

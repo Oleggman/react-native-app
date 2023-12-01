@@ -1,23 +1,37 @@
-import { StyleSheet, ImageBackground, KeyboardAvoidingView, View, Text, Pressable } from "react-native";
+import {
+  StyleSheet,
+  ImageBackground,
+  KeyboardAvoidingView,
+  View,
+  Text,
+  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { LoginForm } from "../components/LoginForm";
 import bg from "../images/bg.jpg";
 
 export const LoginScreen = () => {
-  return (
-    <ImageBackground source={bg} style={styles.mainBg}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Увійти</Text>
-          <LoginForm />
+  const navigation = useNavigation();
 
-          <Pressable>
-            <Text style={styles.loginBtn}>
-              Немає акаунту? <Text style={styles.innerText}>Зареєструватися</Text>
-            </Text>
-          </Pressable>
-        </View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground source={bg} style={styles.mainBg}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Увійти</Text>
+            <LoginForm />
+
+            <Pressable onPress={() => navigation.navigate("RegistrationScreen")}>
+              <Text style={styles.loginBtn}>
+                Немає акаунту? <Text style={styles.innerText}>Зареєструватися</Text>
+              </Text>
+            </Pressable>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 };
 
