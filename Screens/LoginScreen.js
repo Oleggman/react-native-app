@@ -16,8 +16,8 @@ export const LoginScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground source={bg} style={styles.mainBg}>
+    <ImageBackground source={bg} style={styles.mainBg}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View style={styles.container}>
             <Text style={styles.title}>Увійти</Text>
@@ -30,8 +30,8 @@ export const LoginScreen = () => {
             </Pressable>
           </View>
         </KeyboardAvoidingView>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 

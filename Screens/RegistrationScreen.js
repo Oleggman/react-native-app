@@ -18,8 +18,8 @@ export const RegistrationScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground source={bg} style={styles.mainBg}>
+    <ImageBackground source={bg} style={styles.mainBg}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "heoght"}>
           <View style={styles.container}>
             <AddPhotoBox style={styles.addPhotoBox} width={132} height={120} />
@@ -30,8 +30,8 @@ export const RegistrationScreen = () => {
             </Pressable>
           </View>
         </KeyboardAvoidingView>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
