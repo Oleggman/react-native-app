@@ -64,9 +64,9 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <View style={styles.container}>
-          <CameraContainer onTakeShot={onTakeShot} onResetPost={onResetPost} />
+      <View style={styles.container}>
+        <CameraContainer onTakeShot={onTakeShot} onResetPost={onResetPost} />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View>
             <View style={styles.inputBox}>
               <TextInput value={postName} onChangeText={setPostName} style={styles.input} placeholder="Назва..." />
@@ -77,11 +77,11 @@ export const CreatePostsScreen = () => {
               <Ionicons style={styles.icon} name="location" size={16} color="#737373" />
             </View>
           </View>
-          <Pressable onPress={() => navigation.navigate("Публікації")} style={styles.button}>
-            <Text style={styles.buttonText}>Опублікувати</Text>
-          </Pressable>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+        <Pressable onPress={() => navigation.navigate("Публікації")} style={styles.button}>
+          <Text style={styles.buttonText}>Опублікувати</Text>
+        </Pressable>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -92,8 +92,6 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     paddingLeft: 24,
     paddingRight: 24,
-    marginTop: "auto",
-    overflow: "visible",
   },
   inputBox: {
     position: "relative",
