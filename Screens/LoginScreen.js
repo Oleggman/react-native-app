@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LoginForm } from "../components/LoginForm";

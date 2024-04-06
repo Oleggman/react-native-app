@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { CameraContainer } from "../components/CameraContainer";
 import { useNavigation } from "@react-navigation/native";
@@ -70,7 +71,7 @@ export const CreatePostsScreen = () => {
           <View>
             <View style={styles.inputBox}>
               <TextInput value={postName} onChangeText={setPostName} style={styles.input} placeholder="Назва..." />
-              <Ionicons style={styles.icon} name="ios-reader" size={16} color="#737373" />
+              <Ionicons style={styles.icon} name="reader" size={16} color="#737373" />
             </View>
             <View style={styles.inputBox}>
               <TextInput value={address} onChangeText={setAddress} style={styles.input} placeholder="Місцевість..." />

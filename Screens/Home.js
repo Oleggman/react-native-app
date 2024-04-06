@@ -21,11 +21,11 @@ export const Home = () => {
           let iconName;
 
           if (route.name === "Публікації") {
-            iconName = "ios-grid";
+            iconName = "grid";
           } else if (route.name === "Створити публікацію") {
-            return <Ionicons name={"ios-add-circle"} size={36} color={color} />;
+            return <Ionicons name={"add-circle"} size={36} color={color} />;
           } else if (route.name === "Профіль") {
-            iconName = "ios-person";
+            iconName = "person-sharp";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },

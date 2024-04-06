@@ -6,6 +6,7 @@ import { LoginScreen } from "./Screens/LoginScreen";
 import { RegistrationScreen } from "./Screens/RegistrationScreen";
 import { Home } from "./Screens/Home";
 import { MapScreen } from "./Screens/MapScreen";
+import { Text } from "react-native";
 
 const MainStack = createStackNavigator();
 
@@ -17,7 +18,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return;
+    return null;
   }
 
   return (

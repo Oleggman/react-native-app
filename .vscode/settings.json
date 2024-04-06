@@ -4,5 +4,16 @@
     "statusBar.foreground": "#ffffff",
     "minimap.background": "#00000000",
     "scrollbar.shadow": "#00000000"
-  }
+  },
+  "CodeGPT.apiKey": "CodeGPT Plus Beta",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.vscode": true
+  },
+  "explorerExclude.backup": {}
 }
