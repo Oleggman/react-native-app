@@ -1,18 +1,32 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { isLoginValid } from "../utils/authValidation";
+import { loginDB } from "../auth/authorization";
+import { resetStates } from "../utils/resetStates";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const navigation = useNavigation();
 
-  const onLogin = () => {
-    console.log(`Credentials: ${email}, ${password}`);
-    setEmail("");
-    setPassword("");
-    navigation.navigate("Home", { screen: "PostsScreen" });
+  const onLogin = async () => {
+    setError(null);
+
+    if (isLoginValid(email, password, setError)) {
+      try {
+        await loginDB({ email, password });
+        console.log(`Login credentials: ${email}, ${password}`);
+        navigation.navigate("Home", { screen: "PostsScreen" });
+        resetStates(setLogin, setEmail, setPassword, setError);
+      } catch (error) {
+        setError(
+          error.message === "Firebase: Error (auth/invalid-credential)." ? "Invalid credentials" : "Login error"
+        );
+      }
+    }
   };
 
   return (
@@ -29,8 +43,8 @@ export const LoginForm = () => {
         <Pressable style={styles.showButton}>
           <Text>Показати</Text>
         </Pressable>
+        {error && <Text style={styles.errorBadge}>{error}</Text>}
       </View>
-
       <Pressable onPress={onLogin} style={styles.button}>
         <Text style={styles.buttonText}>Увійти</Text>
       </Pressable>
@@ -73,5 +87,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto400",
     textAlign: "center",
+  },
+  errorBadge: {
+    backgroundColor: "rgb(252, 228, 228)",
+    borderColor: "rgb(252, 194, 195)",
+    borderWidth: 2,
+    textAlign: "center",
+    padding: 20,
+    color: "rgb(204, 0, 51)",
+    fontZize: 16,
   },
 });

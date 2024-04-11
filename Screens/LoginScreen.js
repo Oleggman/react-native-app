@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LoginForm } from "../components/LoginForm";
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    maxHeight: 420,
+    maxHeight: 460,
     height: "100%",
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,

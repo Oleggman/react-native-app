@@ -1,20 +1,35 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { isRegisterValid } from "../utils/authValidation";
+import { registerDB } from "../auth/authorization";
+import { resetStates } from "../utils/resetStates";
 
 export const RegistrationForm = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const navigation = useNavigation();
 
-  const onRegister = () => {
-    console.log(`Credentials: ${login}, ${email}, ${password}`);
-    setLogin("");
-    setEmail("");
-    setPassword("");
-    navigation.navigate("Home", { screen: "PostsScreen" });
+  const onRegister = async () => {
+    setError(null);
+
+    if (isRegisterValid(login, email, password, setError)) {
+      try {
+        await registerDB({ email, password });
+        console.log(`Registration credentials: ${login}, ${email}, ${password}`);
+        navigation.navigate("Home", { screen: "PostsScreen" });
+        resetStates(setLogin, setEmail, setPassword, setError);
+      } catch (error) {
+        setError(
+          error.message === "Firebase: Error (auth/email-already-in-use)."
+            ? "Invalid credentials"
+            : "Registration error"
+        );
+      }
+    }
   };
 
   return (
@@ -33,6 +48,7 @@ export const RegistrationForm = () => {
           <Text>Показати</Text>
         </Pressable>
       </View>
+      {error && <Text style={styles.errorBadge}>{error}</Text>}
       <Pressable onPress={onRegister} style={styles.button}>
         <Text style={styles.buttonText}>Зареєструватися</Text>
       </Pressable>
@@ -61,7 +77,7 @@ const styles = StyleSheet.create({
     right: 16,
   },
   button: {
-    marginTop: 42,
+    marginTop: 16,
     marginBottom: 16,
     width: 343,
     paddingTop: 16,
@@ -76,5 +92,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto400",
     textAlign: "center",
+  },
+  errorBadge: {
+    backgroundColor: "rgb(252, 228, 228)",
+    borderColor: "rgb(252, 194, 195)",
+    borderWidth: 2,
+    textAlign: "center",
+    padding: 20,
+    color: "rgb(204, 0, 51)",
+    fontZize: 16,
   },
 });
