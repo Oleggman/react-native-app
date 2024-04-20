@@ -15,8 +15,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 export const CreatePostsScreen = () => {
+  const height = useHeaderHeight();
+
   const [status, setStatus] = useState(null);
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState("");
@@ -67,14 +70,14 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={styles.container}>
-        <CameraContainer
-          onTakeShot={onTakeShot}
-          onResetPost={onResetPost}
-          resetPhoto={resetPhoto}
-          setResetPhoto={setResetPhoto}
-        />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={height}>
+        <ScrollView style={styles.container}>
+          <CameraContainer
+            onTakeShot={onTakeShot}
+            onResetPost={onResetPost}
+            resetPhoto={resetPhoto}
+            setResetPhoto={setResetPhoto}
+          />
           <View>
             <View style={styles.inputBox}>
               <TextInput value={postName} onChangeText={setPostName} style={styles.input} placeholder="Назва..." />
@@ -85,17 +88,17 @@ export const CreatePostsScreen = () => {
               <Ionicons style={styles.icon} name="location" size={16} color="#737373" />
             </View>
           </View>
-        </KeyboardAvoidingView>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Публікації");
-            onResetPost();
-            setResetPhoto(true);
-          }}
-          style={styles.button}>
-          <Text style={styles.buttonText}>Опублікувати</Text>
-        </Pressable>
-      </ScrollView>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("Публікації");
+              onResetPost();
+              setResetPhoto(true);
+            }}
+            style={styles.button}>
+            <Text style={styles.buttonText}>Опублікувати</Text>
+          </Pressable>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };

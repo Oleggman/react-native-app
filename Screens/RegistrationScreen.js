@@ -20,7 +20,7 @@ export const RegistrationScreen = () => {
   return (
     <ImageBackground source={bg} style={styles.mainBg}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "heoght"}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View style={styles.container}>
             <AddPhotoBox style={styles.addPhotoBox} />
             <Text style={styles.title}>Реєстрація</Text>
