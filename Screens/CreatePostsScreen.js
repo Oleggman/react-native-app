@@ -90,7 +90,7 @@ export const CreatePostsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    paddingTop: 32,
+    paddingTop: 16,
     paddingLeft: 24,
     paddingRight: 24,
   },
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 343,
+    height: 50,
     paddingTop: 16,
     paddingBottom: 16,
     paddingLeft: 20,
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto400",
   },
   button: {
-    marginTop: 42,
+    marginTop: 24,
     marginBottom: 16,
     width: 343,
     paddingTop: 16,

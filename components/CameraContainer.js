@@ -3,6 +3,8 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, Pressable } from "reac
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
+// import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 
 export const CameraContainer = ({ onTakeShot, onResetPost }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -25,8 +27,26 @@ export const CameraContainer = ({ onTakeShot, onResetPost }) => {
     return <Text>No access to camera</Text>;
   }
 
+  const ImagePick = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setPhotoUri(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.cameraContainer}>
+      <Text style={styles.photoTitle}>Зробіть знімок</Text>
       {photoUri ? (
         <Image style={styles.photo} source={{ uri: photoUri }} />
       ) : (
@@ -48,14 +68,20 @@ export const CameraContainer = ({ onTakeShot, onResetPost }) => {
           </View>
         </Camera>
       )}
-      <Text style={styles.description}>Редагувати фото</Text>
-
+      <Text style={styles.photoTitle}>Або виберіть з галереї</Text>
+      <TouchableOpacity
+        style={[styles.secondaryBtn, { paddingTop: 12, paddingBottom: 12 }]}
+        onPress={() => {
+          ImagePick();
+        }}>
+        <Text style={styles.choosePhotoText}>Вибрати з галереї</Text>
+      </TouchableOpacity>
       <Pressable
         onPress={() => {
           setPhotoUri(null);
           onResetPost();
         }}
-        style={styles.deleteBtn}>
+        style={styles.secondaryBtn}>
         <Ionicons name="trash-bin" size={24} color="#FF6C00" />
       </Pressable>
     </View>
@@ -66,32 +92,33 @@ const styles = StyleSheet.create({
   cameraContainer: {
     alignItems: "center",
   },
-  description: {
-    color: "#BDBDBD",
-    fontFamily: "Roboto400",
-    fontSize: 16,
-    alignSelf: "flex-start",
-  },
   camera: {
     width: 343,
     height: 240,
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 16,
   },
   photo: {
     width: 343,
     height: 240,
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 16,
   },
-  deleteBtn: {
+  secondaryBtn: {
     backgroundColor: "#fff",
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 28,
     paddingRight: 28,
     borderRadius: 50,
-    marginBottom: 32,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+  },
+  choosePhotoText: {
+    color: "#FF6C00",
+    fontFamily: "Roboto700",
+    fontSize: 18,
   },
   photoView: {
     flex: 1,
@@ -109,5 +136,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 50,
     backgroundColor: "rgba(255, 255, 255, 0.30)",
+  },
+  photoTitle: {
+    color: "#828282",
+    fontFamily: "Roboto400",
+    fontSize: 20,
+    marginBottom: 16,
   },
 });
