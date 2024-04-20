@@ -8,6 +8,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import { CameraContainer } from "../components/CameraContainer";
 import { useNavigation } from "@react-navigation/native";
@@ -53,7 +54,7 @@ export const CreatePostsScreen = () => {
     });
 
     for (let item of response) {
-      let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
+      let address = `${item.city}, ${item.street}, ${item.name}, ${item.postalCode}`;
 
       setAddress(address);
     }
@@ -66,7 +67,7 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <CameraContainer
           onTakeShot={onTakeShot}
           onResetPost={onResetPost}
@@ -94,14 +95,13 @@ export const CreatePostsScreen = () => {
           style={styles.button}>
           <Text style={styles.buttonText}>Опублікувати</Text>
         </Pressable>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
     paddingTop: 16,
     paddingLeft: 24,
     paddingRight: 24,

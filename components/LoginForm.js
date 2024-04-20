@@ -20,7 +20,8 @@ export const LoginForm = () => {
         await loginDB({ email, password });
         console.log(`Login credentials: ${email}, ${password}`);
         navigation.navigate("Home", { screen: "PostsScreen" });
-        resetStates(setLogin, setEmail, setPassword, setError);
+        resetStates(setEmail, setPassword);
+        setError(null);
       } catch (error) {
         setError(
           error.message === "Firebase: Error (auth/invalid-credential)." ? "Invalid credentials" : "Login error"

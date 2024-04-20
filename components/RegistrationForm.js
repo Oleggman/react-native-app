@@ -21,7 +21,8 @@ export const RegistrationForm = () => {
         await registerDB({ email, password });
         console.log(`Registration credentials: ${login}, ${email}, ${password}`);
         navigation.navigate("Home", { screen: "PostsScreen" });
-        resetStates(setLogin, setEmail, setPassword, setError);
+        resetStates(setLogin, setEmail, setPassword);
+        setError(null);
       } catch (error) {
         setError(
           error.message === "Firebase: Error (auth/email-already-in-use)."
