@@ -3,10 +3,9 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, Pressable } from "reac
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
-// import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from "expo-image-picker";
 
-export const CameraContainer = ({ onTakeShot, onResetPost }) => {
+export const CameraContainer = ({ onTakeShot, onResetPost, resetPhoto, setResetPhoto }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [photoUri, setPhotoUri] = useState(null);
@@ -19,6 +18,13 @@ export const CameraContainer = ({ onTakeShot, onResetPost }) => {
       setHasPermission(status === "granted");
     })();
   }, []);
+
+  useEffect(() => {
+    if (resetPhoto) {
+      setPhotoUri(null);
+      setResetPhoto(false);
+    }
+  }, [resetPhoto]);
 
   if (hasPermission === null) {
     return <View />;
@@ -37,6 +43,7 @@ export const CameraContainer = ({ onTakeShot, onResetPost }) => {
       });
 
       if (!result.canceled) {
+        onTakeShot();
         setPhotoUri(result.assets[0].uri);
       }
     } catch (error) {

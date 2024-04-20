@@ -20,6 +20,7 @@ export const CreatePostsScreen = () => {
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState("");
   const [postName, setPostName] = useState("");
+  const [resetPhoto, setResetPhoto] = useState(false);
 
   const navigation = useNavigation();
 
@@ -66,7 +67,12 @@ export const CreatePostsScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <CameraContainer onTakeShot={onTakeShot} onResetPost={onResetPost} />
+        <CameraContainer
+          onTakeShot={onTakeShot}
+          onResetPost={onResetPost}
+          resetPhoto={resetPhoto}
+          setResetPhoto={setResetPhoto}
+        />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View>
             <View style={styles.inputBox}>
@@ -79,7 +85,13 @@ export const CreatePostsScreen = () => {
             </View>
           </View>
         </KeyboardAvoidingView>
-        <Pressable onPress={() => navigation.navigate("Публікації")} style={styles.button}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Публікації");
+            onResetPost();
+            setResetPhoto(true);
+          }}
+          style={styles.button}>
           <Text style={styles.buttonText}>Опублікувати</Text>
         </Pressable>
       </View>
