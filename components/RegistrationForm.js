@@ -26,7 +26,7 @@ export const RegistrationForm = () => {
       } catch (error) {
         setError(
           error.message === "Firebase: Error (auth/email-already-in-use)."
-            ? "Invalid credentials"
+            ? "This account is already in use"
             : "Registration error"
         );
       }
@@ -101,6 +101,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 20,
     color: "rgb(204, 0, 51)",
-    fontZize: 16,
   },
 });

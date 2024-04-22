@@ -16,7 +16,7 @@ import AddPhotoBox from "../components/AddPhotoBox";
 
 export const RegistrationScreen = () => {
   const navigation = useNavigation();
-
+  //TODO: not always form resets after navigation
   return (
     <ImageBackground source={bg} style={styles.mainBg}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -16,6 +16,9 @@ import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import { useHeaderHeight } from "@react-navigation/elements";
+import { auth } from "../config";
+import { writeDataToFirestore } from "../db";
+import { getLocation } from "../utils/getLocation";
 
 export const CreatePostsScreen = () => {
   const height = useHeaderHeight();
@@ -24,7 +27,7 @@ export const CreatePostsScreen = () => {
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState("");
   const [postName, setPostName] = useState("");
-  const [resetPhoto, setResetPhoto] = useState(false);
+  const [photoUri, setPhotoUri] = useState(null);
 
   const navigation = useNavigation();
 
@@ -50,22 +53,24 @@ export const CreatePostsScreen = () => {
     };
     setLocation(coords);
 
-    const { latitude, longitude } = coords;
-    let response = await Location.reverseGeocodeAsync({
-      latitude,
-      longitude,
+    const loc = await getLocation(coords);
+    setAddress(loc);
+  };
+
+  const createPost = () => {
+    writeDataToFirestore({
+      photoUri,
+      postTitle: postName,
+      likes: 0,
+      location: location,
+      owner: auth.currentUser.uid,
     });
-
-    for (let item of response) {
-      let address = `${item.city}, ${item.street}, ${item.name}, ${item.postalCode}`;
-
-      setAddress(address);
-    }
   };
 
   const onResetPost = () => {
     setAddress("");
     setPostName("");
+    setPhotoUri(null);
   };
 
   return (
@@ -75,8 +80,8 @@ export const CreatePostsScreen = () => {
           <CameraContainer
             onTakeShot={onTakeShot}
             onResetPost={onResetPost}
-            resetPhoto={resetPhoto}
-            setResetPhoto={setResetPhoto}
+            photoUri={photoUri}
+            setPhotoUri={setPhotoUri}
           />
           <View>
             <View style={styles.inputBox}>
@@ -91,8 +96,8 @@ export const CreatePostsScreen = () => {
           <Pressable
             onPress={() => {
               navigation.navigate("Публікації");
+              createPost();
               onResetPost();
-              setResetPhoto(true);
             }}
             style={styles.button}>
             <Text style={styles.buttonText}>Опублікувати</Text>

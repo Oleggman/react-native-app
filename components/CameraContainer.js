@@ -1,30 +1,22 @@
 import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Image, Pressable } from "react-native";
-import { Camera } from "expo-camera";
+import { Camera, requestCameraPermissionsAsync } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
-export const CameraContainer = ({ onTakeShot, onResetPost, resetPhoto, setResetPhoto }) => {
+export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
-  const [photoUri, setPhotoUri] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
 
       setHasPermission(status === "granted");
     })();
   }, []);
-
-  useEffect(() => {
-    if (resetPhoto) {
-      setPhotoUri(null);
-      setResetPhoto(false);
-    }
-  }, [resetPhoto]);
 
   if (hasPermission === null) {
     return <View />;
