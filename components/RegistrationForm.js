@@ -18,7 +18,7 @@ export const RegistrationForm = () => {
 
     if (isRegisterValid(login, email, password, setError)) {
       try {
-        await registerDB({ email, password });
+        await registerDB({ email, password, login });
         console.log(`Registration credentials: ${login}, ${email}, ${password}`);
         navigation.navigate("Home", { screen: "PostsScreen" });
         resetStates(setLogin, setEmail, setPassword);

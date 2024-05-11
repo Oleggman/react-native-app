@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderColor: "#FF6C00",
     overflow: "hidden",
   },
-  //TODO: fix 220px height for each photo
+  //FIXME: fix 220px height for each photo
   photo: {
     width: "100%",
     minHeight: 220,

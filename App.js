@@ -6,7 +6,7 @@ import { LoginScreen } from "./Screens/LoginScreen";
 import { RegistrationScreen } from "./Screens/RegistrationScreen";
 import { Home } from "./Screens/Home";
 import { MapScreen } from "./Screens/MapScreen";
-import { Text } from "react-native";
+import Toast from "react-native-toast-message";
 
 const MainStack = createStackNavigator();
 
@@ -22,13 +22,16 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="RegistrationScreen">
-        <MainStack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-        <MainStack.Screen name="RegistrationScreen" component={RegistrationScreen} options={{ headerShown: false }} />
-        <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <MainStack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
-      </MainStack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <MainStack.Navigator initialRouteName="RegistrationScreen">
+          <MainStack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+          <MainStack.Screen name="RegistrationScreen" component={RegistrationScreen} options={{ headerShown: false }} />
+          <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <MainStack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
+        </MainStack.Navigator>
+      </NavigationContainer>
+      <Toast />
+    </>
   );
 }

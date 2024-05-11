@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getPostsByUserFromFireStore } from "../db";
 import { auth } from "../config";
 import { useNavigation } from "@react-navigation/native";
+import { UserProfile } from "../components/UserProfile";
 
 export const PostsScreen = () => {
   const [posts, setPosts] = useState(null);
@@ -26,21 +27,24 @@ export const PostsScreen = () => {
   }, []);
 
   return (
-    posts && (
-      <ScrollView style={styles.container}>
-        {posts?.length > 0 ? (
-          <View style={styles.list}>
-            {posts.map((post) => (
-              <PostItem key={post.data.uid} post={post.data} />
-            ))}
-          </View>
-        ) : (
-          <Text style={styles.errorBadge}>
-            У вас ще немає публікацій. Виправте це зараз та створіть свою першу публікацію!
-          </Text>
-        )}
-      </ScrollView>
-    )
+    <ScrollView>
+      <UserProfile uid={auth.currentUser.uid} />
+      {posts && (
+        <View style={styles.container}>
+          {posts?.length > 0 ? (
+            <View style={styles.list}>
+              {posts.map((post) => (
+                <PostItem key={post.data.uid} post={post.data} />
+              ))}
+            </View>
+          ) : (
+            <Text style={styles.errorBadge}>
+              У вас ще немає публікацій. Виправте це зараз та створіть свою першу публікацію!
+            </Text>
+          )}
+        </View>
+      )}
+    </ScrollView>
   );
 };
 

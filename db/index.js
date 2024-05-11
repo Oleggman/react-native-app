@@ -44,7 +44,7 @@ export const updateDataInFirestore = async (collectionName, docId, updatedPost) 
     console.log(error);
   }
 };
-//TODO: fix app crashing (possible place)
+//FIXME: fix app crashing (possible place)
 export const uploadImageToFirebaseStorage = async (uri, imageName) => {
   try {
     const response = await fetch(uri);

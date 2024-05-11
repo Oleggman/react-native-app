@@ -72,7 +72,7 @@ export const CreatePostsScreen = () => {
     setPostName("");
     setPhotoUri(null);
   };
-
+  //TODO: make all inputs required and unless this publish button disabled
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={height}>
@@ -95,7 +95,7 @@ export const CreatePostsScreen = () => {
           </View>
           <Pressable
             onPress={() => {
-              navigation.navigate("Публікації");
+              navigation.navigate("Профіль");
               createPost();
               onResetPost();
             }}

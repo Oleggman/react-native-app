@@ -5,7 +5,7 @@ import { PostsScreen } from "./PostsScreen";
 import { CreatePostsScreen } from "./CreatePostsScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { MapScreen } from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
@@ -34,8 +34,9 @@ export const Home = () => {
         activeTintColor: "tomato",
         inactiveTintColor: "gray",
       }}>
+      {/*FIXME: header title not centered on android*/}
       <Tabs.Screen
-        name="Публікації"
+        name="Профіль"
         component={PostsScreen}
         options={{
           headerRight: () => (
@@ -46,7 +47,7 @@ export const Home = () => {
         }}
       />
       <Tabs.Screen name="Створити публікацію" component={CreatePostsScreen} />
-      <Tabs.Screen name="Профіль" component={ProfileScreen} />
+      <Tabs.Screen name="Публікації" component={ProfileScreen} />
     </Tabs.Navigator>
   );
 };
