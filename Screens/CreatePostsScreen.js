@@ -19,6 +19,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { auth } from "../config";
 import { writeDataToFirestore } from "../db";
 import { getLocation } from "../utils/getLocation";
+import Toast from "react-native-toast-message";
 
 export const CreatePostsScreen = () => {
   const height = useHeaderHeight();
@@ -57,8 +58,8 @@ export const CreatePostsScreen = () => {
     setAddress(loc);
   };
 
-  const createPost = () => {
-    writeDataToFirestore({
+  const createPost = async () => {
+    await writeDataToFirestore({
       photoUri,
       postTitle: postName,
       likes: 0,
@@ -71,6 +72,19 @@ export const CreatePostsScreen = () => {
     setAddress("");
     setPostName("");
     setPhotoUri(null);
+  };
+
+  const onCreatePost = async () => {
+    await createPost();
+    Toast.show({
+      type: "success",
+      text1: "Пост створено!",
+      topOffset: 64,
+      text1Style: { fontSize: 20, color: "green" },
+      visibilityTime: 3000,
+    });
+    navigation.navigate("Профіль");
+    onResetPost();
   };
   //TODO: make all inputs required and unless this publish button disabled
   return (
@@ -93,13 +107,7 @@ export const CreatePostsScreen = () => {
               <Ionicons style={styles.icon} name="location" size={16} color="#737373" />
             </View>
           </View>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("Профіль");
-              createPost();
-              onResetPost();
-            }}
-            style={styles.button}>
+          <Pressable onPress={onCreatePost} style={styles.button}>
             <Text style={styles.buttonText}>Опублікувати</Text>
           </Pressable>
         </ScrollView>

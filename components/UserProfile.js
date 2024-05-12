@@ -18,10 +18,9 @@ export const UserProfile = ({ uid }) => {
   return (
     <View style={styles.profileContainer}>
       <Text style={styles.profileIdText}>Ваш ID:</Text>
-      <Text style={[styles.profileId, { marginBottom: 16 }]}>{uid}</Text>
       <TouchableOpacity onPress={onCopyId} style={styles.copyToClipboardButton}>
-        <Text style={[styles.profileId, { color: "#FFF" }]}>Копіювати ID</Text>
-        <Ionicons name={"copy-outline"} size={28} color="#FFF" />
+        <Text style={[styles.profileId, { color: "#FFF" }]}>{uid}</Text>
+        <Ionicons name={"copy-outline"} size={24} color="#FFF" />
       </TouchableOpacity>
     </View>
   );
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   },
   profileId: {
     fontFamily: "Roboto400",
-    fontSize: 20,
+    fontSize: 16,
     color: "#FF6C00",
   },
   copyToClipboardButton: {

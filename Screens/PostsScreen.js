@@ -5,6 +5,7 @@ import { getPostsByUserFromFireStore } from "../db";
 import { auth } from "../config";
 import { useNavigation } from "@react-navigation/native";
 import { UserProfile } from "../components/UserProfile";
+import Toast from "react-native-toast-message";
 
 export const PostsScreen = () => {
   const [posts, setPosts] = useState(null);
@@ -27,6 +28,14 @@ export const PostsScreen = () => {
   }, []);
 
   const onDeletePost = (id) => {
+    Toast.show({
+      type: "info",
+      text1: "Пост видалено!",
+      topOffset: 64,
+      text1Style: { fontSize: 20, color: "blue" },
+      visibilityTime: 3000,
+    });
+    navigation.navigate("Профіль");
     setPosts((posts) => posts.filter((post) => post.id !== id));
   };
 
