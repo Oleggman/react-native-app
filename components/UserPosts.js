@@ -1,14 +1,20 @@
 import { View, StyleSheet, Text } from "react-native";
 import { PostItem } from "./PostItem";
+import { getPostsByUserFromFireStore } from "../db";
 
-export const UserPosts = ({ posts, currentUser }) => {
+export const UserPosts = ({ posts, currentUser, setUserPosts }) => {
+  const updateUserPosts = async () => {
+    const res = await getPostsByUserFromFireStore(currentUser);
+    setUserPosts(res);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.profileIdText}>Пости користувача</Text>
       <Text style={styles.profileId}>{currentUser}</Text>
       <View style={styles.list}>
         {posts.map((post) => (
-          <PostItem key={post.data.id} post={post.data} />
+          <PostItem key={post.id} post={post.data} postId={post.id} getAllPostsByUser={updateUserPosts} />
         ))}
       </View>
     </View>

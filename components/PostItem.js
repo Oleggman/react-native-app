@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ref, getDownloadURL } from "@firebase/storage";
 import { storage } from "../config";
 import { Ionicons } from "@expo/vector-icons";
 import { getLocation } from "../utils/getLocation";
 import { MaterialIcons } from "@expo/vector-icons";
-import { deletePost } from "../db";
+import { deletePost, pressLike } from "../db";
+import { auth } from "../config";
 
-export const PostItem = ({ post, ownPost, postId, onDeletePost }) => {
+export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPost }) => {
   const [imageURL, setImageURL] = useState(null);
   const [location, setLocation] = useState(null);
 
@@ -31,6 +32,18 @@ export const PostItem = ({ post, ownPost, postId, onDeletePost }) => {
     getAddress();
   }, [post]);
 
+  const onLikePress = async () => {
+    await pressLike(auth.currentUser.uid, post, postId);
+    await getAllPostsByUser();
+  };
+
+  const Like = useMemo(() => {
+    if (post.likes.includes(auth.currentUser.uid)) {
+      return <Ionicons name="heart-sharp" size={24} color="#FF6C00" />;
+    }
+    return <Ionicons name="heart-outline" size={24} color="black" />;
+  }, [post.likes]);
+
   return (
     <View style={styles.card}>
       <View>
@@ -51,10 +64,10 @@ export const PostItem = ({ post, ownPost, postId, onDeletePost }) => {
           <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
         </View>
         <View style={styles.description}>
-          <View style={[styles.description, { marginBottom: 0 }]}>
-            <Ionicons name="heart" size={24} color="#FF6C00" />
-            <Text style={styles.descriptionText}>{post.likes}</Text>
-          </View>
+          <Pressable onPress={onLikePress} style={[styles.description, { marginBottom: 0 }]}>
+            {Like}
+            <Text style={styles.descriptionText}>{post.likes.length}</Text>
+          </Pressable>
           {ownPost && (
             <Pressable
               onPress={() => {

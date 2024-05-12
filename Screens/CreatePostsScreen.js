@@ -62,7 +62,7 @@ export const CreatePostsScreen = () => {
     await writeDataToFirestore({
       photoUri,
       postTitle: postName,
-      likes: 0,
+      likes: [],
       location: location,
       owner: auth.currentUser.uid,
     });

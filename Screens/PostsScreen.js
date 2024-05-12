@@ -12,12 +12,12 @@ export const PostsScreen = () => {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const getAllPostsByUser = async () => {
-      const posts = await getPostsByUserFromFireStore(auth.currentUser.uid);
-      setPosts(posts);
-    };
+  const getAllPostsByUser = async () => {
+    const posts = await getPostsByUserFromFireStore(auth.currentUser.uid);
+    setPosts(posts);
+  };
 
+  useEffect(() => {
     getAllPostsByUser();
 
     const unsubscribe = navigation.addListener("focus", () => {
@@ -47,7 +47,14 @@ export const PostsScreen = () => {
           {posts?.length > 0 ? (
             <View style={styles.list}>
               {posts.map((post) => (
-                <PostItem key={post.id} post={post.data} postId={post.id} onDeletePost={onDeletePost} ownPost />
+                <PostItem
+                  key={post.id}
+                  post={post.data}
+                  postId={post.id}
+                  onDeletePost={onDeletePost}
+                  getAllPostsByUser={getAllPostsByUser}
+                  ownPost
+                />
               ))}
             </View>
           ) : (

@@ -33,17 +33,6 @@ export const getPostsByUserFromFireStore = async (userId) => {
     throw error;
   }
 };
-
-export const updateDataInFirestore = async (collectionName, docId, updatedPost) => {
-  try {
-    const ref = doc(db, collectionName, docId);
-
-    await updateDoc(ref, updatedPost);
-    console.log("document updated");
-  } catch (error) {
-    console.log(error);
-  }
-};
 //FIXME: fix app crashing (possible place)
 export const uploadImageToFirebaseStorage = async (uri, imageName) => {
   try {
@@ -62,15 +51,26 @@ export const deletePost = async (docId, photoUri) => {
   try {
     await deleteDoc(doc(db, "posts", docId));
     await deleteObject(ref(storage, photoUri));
-    // firebase
-    //   .firestore()
-    //   .collection("posts")
-    //   .where("photoUri", "==", uri)
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.docs[0].ref.delete();
-    //   });
   } catch (error) {
     console.error("Помилка під час видалення документа та файлу зображення:", error);
+  }
+};
+
+export const pressLike = async (uid, post, postId) => {
+  const ref = doc(db, "posts", postId);
+  try {
+    if (!post.likes.some((like) => like === uid)) {
+      await updateDoc(ref, {
+        ...post,
+        likes: [...post.likes, uid],
+      });
+    } else {
+      await updateDoc(ref, {
+        ...post,
+        likes: post.likes.filter((like) => like !== uid),
+      });
+    }
+  } catch (error) {
+    console.error("Помилка під час лайка:", error);
   }
 };

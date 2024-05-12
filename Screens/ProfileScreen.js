@@ -12,7 +12,7 @@ export const ProfileScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <SearchUserForm setUserPosts={setUserPosts} setCurrentUser={setCurrentUser} />
-          {userPosts && <UserPosts posts={userPosts} currentUser={currentUser} />}
+          {userPosts && <UserPosts posts={userPosts} currentUser={currentUser} setUserPosts={setUserPosts} />}
         </View>
       </TouchableWithoutFeedback>
     </ScrollView>
