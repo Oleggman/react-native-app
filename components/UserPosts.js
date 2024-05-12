@@ -8,7 +8,7 @@ export const UserPosts = ({ posts, currentUser }) => {
       <Text style={styles.profileId}>{currentUser}</Text>
       <View style={styles.list}>
         {posts.map((post) => (
-          <PostItem key={post.data.uid} post={post.data} />
+          <PostItem key={post.data.id} post={post.data} />
         ))}
       </View>
     </View>

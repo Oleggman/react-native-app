@@ -1,7 +1,7 @@
-import { collection, addDoc, getDocs, updateDoc, where, query } from "firebase/firestore";
+import { collection, addDoc, getDocs, updateDoc, where, query, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../config";
 import { storage } from "../config";
-import { ref, uploadBytes } from "@firebase/storage";
+import { ref, uploadBytes, deleteObject } from "@firebase/storage";
 
 export const writeDataToFirestore = async (post) => {
   try {
@@ -55,5 +55,22 @@ export const uploadImageToFirebaseStorage = async (uri, imageName) => {
   } catch (error) {
     console.error("Error uploading image to Firebase Storage:", error);
     throw error;
+  }
+};
+
+export const deletePost = async (docId, photoUri) => {
+  try {
+    await deleteDoc(doc(db, "posts", docId));
+    await deleteObject(ref(storage, photoUri));
+    // firebase
+    //   .firestore()
+    //   .collection("posts")
+    //   .where("photoUri", "==", uri)
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     querySnapshot.docs[0].ref.delete();
+    //   });
+  } catch (error) {
+    console.error("Помилка під час видалення документа та файлу зображення:", error);
   }
 };

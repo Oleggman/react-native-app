@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { useState, useEffect } from "react";
 import { ref, getDownloadURL } from "@firebase/storage";
 import { storage } from "../config";
 import { Ionicons } from "@expo/vector-icons";
 import { getLocation } from "../utils/getLocation";
+import { MaterialIcons } from "@expo/vector-icons";
+import { deletePost } from "../db";
 
-export const PostItem = ({ post }) => {
+export const PostItem = ({ post, ownPost, postId, onDeletePost }) => {
   const [imageURL, setImageURL] = useState(null);
   const [location, setLocation] = useState(null);
 
@@ -49,8 +51,19 @@ export const PostItem = ({ post }) => {
           <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
         </View>
         <View style={styles.description}>
-          <Ionicons name="heart" size={24} color="#FF6C00" />
-          <Text style={styles.descriptionText}>{post.likes}</Text>
+          <View style={[styles.description, { marginBottom: 0 }]}>
+            <Ionicons name="heart" size={24} color="#FF6C00" />
+            <Text style={styles.descriptionText}>{post.likes}</Text>
+          </View>
+          {ownPost && (
+            <Pressable
+              onPress={() => {
+                deletePost(postId, post.photoUri);
+                onDeletePost(postId);
+              }}>
+              <MaterialIcons name="delete" size={28} color="#FF6C00" />
+            </Pressable>
+          )}
         </View>
       </View>
     </View>

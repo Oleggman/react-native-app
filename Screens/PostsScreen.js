@@ -26,6 +26,10 @@ export const PostsScreen = () => {
     return unsubscribe;
   }, []);
 
+  const onDeletePost = (id) => {
+    setPosts((posts) => posts.filter((post) => post.id !== id));
+  };
+
   return (
     <ScrollView>
       <UserProfile uid={auth.currentUser.uid} />
@@ -34,7 +38,7 @@ export const PostsScreen = () => {
           {posts?.length > 0 ? (
             <View style={styles.list}>
               {posts.map((post) => (
-                <PostItem key={post.data.uid} post={post.data} />
+                <PostItem key={post.id} post={post.data} postId={post.id} onDeletePost={onDeletePost} ownPost />
               ))}
             </View>
           ) : (
