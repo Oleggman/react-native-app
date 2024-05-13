@@ -15,7 +15,7 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
       Toast.show({
         type: "error",
         text1: "Not found!",
-        text2: "Постів не знайдено.",
+        text2: "No posts was found.",
         topOffset: 64,
         text1Style: { fontSize: 20, color: "red" },
         text2Style: { fontSize: 16, color: "red" },
@@ -24,7 +24,7 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
       return;
     }
 
-    navigation.navigate("Публікації", { userPosts: res });
+    navigation.navigate("Posts", { userPosts: res });
     setCurrentUser(searchedUserId);
     setSearchedUserId("");
     setUserPosts(res);
@@ -37,19 +37,19 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <View style={styles.inputBox}>
-        <Text style={styles.searchUserText}>Пошук користувача</Text>
+        <Text style={styles.searchUserText}>Search for users</Text>
         <TextInput
           value={searchedUserId}
           onChangeText={setSearchedUserId}
           style={styles.input}
-          placeholder="Введіть ID користувача"
+          placeholder="Enter user ID"
         />
         <View style={styles.buttonsContainer}>
           <Pressable onPress={onSearchUser} style={styles.button}>
-            <Text style={styles.buttonText}>Пошук</Text>
+            <Text style={styles.buttonText}>Search</Text>
           </Pressable>
           <Pressable onPress={onResetUser} style={styles.button}>
-            <Text style={styles.buttonText}>Скинути</Text>
+            <Text style={styles.buttonText}>Reset</Text>
           </Pressable>
         </View>
       </View>

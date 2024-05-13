@@ -9,6 +9,7 @@ export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [secureText, setsScureText] = useState(true);
 
   const navigation = useNavigation();
 
@@ -19,7 +20,7 @@ export const LoginForm = () => {
       try {
         await loginDB({ email, password });
         console.log(`Login credentials: ${email}, ${password}`);
-        navigation.navigate("Home", { screen: "PostsScreen" });
+        navigation.navigate("Home", { screen: "ProfileScreen" });
         resetStates(setEmail, setPassword);
         setError(null);
       } catch (error) {
@@ -30,24 +31,28 @@ export const LoginForm = () => {
     }
   };
 
+  const onShowPassword = () => {
+    setsScureText((prev) => !prev);
+  };
+
   return (
     <View style={styles.inputBox}>
-      <TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder="Адреса електронної пошти" />
+      <TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder="Email" />
       <View>
         <TextInput
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={secureText}
           style={styles.input}
-          placeholder="Пароль"
+          placeholder="Password"
         />
-        <Pressable style={styles.showButton}>
-          <Text>Показати</Text>
+        <Pressable style={styles.showButton} onPress={onShowPassword}>
+          <Text>{secureText ? "Show" : "Hide"}</Text>
         </Pressable>
         {error && <Text style={styles.errorBadge}>{error}</Text>}
       </View>
       <Pressable onPress={onLogin} style={styles.button}>
-        <Text style={styles.buttonText}>Увійти</Text>
+        <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
     </View>
   );
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
   showButton: {
     position: "absolute",
     top: 16,
-    right: 16,
+    right: 24,
   },
   button: {
     marginTop: 42,

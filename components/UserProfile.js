@@ -7,7 +7,7 @@ export const UserProfile = ({ uid }) => {
   const onCopyId = () => {
     Toast.show({
       type: "success",
-      text1: "ID скопійовано!",
+      text1: "ID copied!",
       topOffset: 64,
       text1Style: { fontSize: 20, color: "green" },
       visibilityTime: 2000,
@@ -17,7 +17,7 @@ export const UserProfile = ({ uid }) => {
 
   return (
     <View style={styles.profileContainer}>
-      <Text style={styles.profileIdText}>Ваш ID:</Text>
+      <Text style={styles.profileIdText}>Your ID:</Text>
       <TouchableOpacity onPress={onCopyId} style={styles.copyToClipboardButton}>
         <Text style={[styles.profileId, { color: "#FFF" }]}>{uid}</Text>
         <Ionicons name={"copy-outline"} size={24} color="#FFF" />

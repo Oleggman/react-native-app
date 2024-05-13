@@ -5,7 +5,7 @@ import { PostsScreen } from "./PostsScreen";
 import { CreatePostsScreen } from "./CreatePostsScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { MapScreen } from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
@@ -15,16 +15,18 @@ export const Home = () => {
 
   return (
     <Tabs.Navigator
+      initialRouteName={"Profile"}
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
+        headerTitleAlign: "center",
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === "Публікації") {
+          if (route.name === "Posts") {
             iconName = "grid";
-          } else if (route.name === "Створити публікацію") {
+          } else if (route.name === "Create a post") {
             return <Ionicons name={"add-circle"} size={36} color={color} />;
-          } else if (route.name === "Профіль") {
+          } else if (route.name === "Profile") {
             iconName = "person-sharp";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -34,10 +36,11 @@ export const Home = () => {
         activeTintColor: "tomato",
         inactiveTintColor: "gray",
       }}>
-      {/*FIXME: header title not centered on android*/}
+      <Tabs.Screen name="Posts" component={PostsScreen} />
+      <Tabs.Screen name="Create a post" component={CreatePostsScreen} />
       <Tabs.Screen
-        name="Профіль"
-        component={PostsScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
           headerRight: () => (
             <Pressable onPress={() => navigation.navigate("LoginScreen")} style={{ marginRight: 16 }}>
@@ -46,8 +49,6 @@ export const Home = () => {
           ),
         }}
       />
-      <Tabs.Screen name="Створити публікацію" component={CreatePostsScreen} />
-      <Tabs.Screen name="Публікації" component={ProfileScreen} />
     </Tabs.Navigator>
   );
 };

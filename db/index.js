@@ -1,4 +1,15 @@
-import { collection, addDoc, getDocs, updateDoc, where, query, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  where,
+  query,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  orderBy,
+} from "firebase/firestore";
 import { db } from "../config";
 import { storage } from "../config";
 import { ref, uploadBytes, deleteObject } from "@firebase/storage";
@@ -10,6 +21,7 @@ export const writeDataToFirestore = async (post) => {
     const docRef = await addDoc(collection(db, "posts"), {
       ...post,
       photoUri: photoUrl,
+      createdAt: serverTimestamp(),
     });
 
     console.log("Document written with ID: ", docRef.id);

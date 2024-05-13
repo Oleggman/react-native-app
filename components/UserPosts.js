@@ -10,7 +10,7 @@ export const UserPosts = ({ posts, currentUser, setUserPosts }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.profileIdText}>Пости користувача</Text>
+      <Text style={styles.profileIdText}>Posts of a user</Text>
       <Text style={styles.profileId}>{currentUser}</Text>
       <View style={styles.list}>
         {posts.map((post) => (
@@ -23,7 +23,7 @@ export const UserPosts = ({ posts, currentUser, setUserPosts }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
+    marginTop: 24,
   },
   list: {
     flex: 1,

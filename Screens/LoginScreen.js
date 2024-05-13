@@ -22,12 +22,12 @@ export const LoginScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View style={styles.container}>
-            <Text style={styles.title}>Увійти</Text>
+            <Text style={styles.title}>Log in</Text>
             <LoginForm />
 
             <Pressable onPress={() => navigation.navigate("RegistrationScreen")}>
               <Text style={styles.loginBtn}>
-                Немає акаунту? <Text style={styles.innerText}>Зареєструватися</Text>
+                Do not have an account? <Text style={styles.innerText}>Sign up</Text>
               </Text>
             </Pressable>
           </View>

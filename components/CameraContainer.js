@@ -45,7 +45,7 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
 
   return (
     <View style={styles.cameraContainer}>
-      <Text style={styles.photoTitle}>Зробіть знімок</Text>
+      <Text style={styles.photoTitle}>Take a photo</Text>
       {photoUri ? (
         <Image style={styles.photo} source={{ uri: photoUri }} />
       ) : (
@@ -67,13 +67,13 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
           </View>
         </Camera>
       )}
-      <Text style={styles.photoTitle}>Або виберіть з галереї</Text>
+      <Text style={styles.photoTitle}>Or choose it from library</Text>
       <TouchableOpacity
         style={[styles.secondaryBtn, { paddingTop: 12, paddingBottom: 12 }]}
         onPress={() => {
           ImagePick();
         }}>
-        <Text style={styles.choosePhotoText}>Вибрати з галереї</Text>
+        <Text style={styles.choosePhotoText}>Choose from library</Text>
       </TouchableOpacity>
       <Pressable
         onPress={() => {

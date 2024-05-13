@@ -10,6 +10,7 @@ export const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [secureText, setsScureText] = useState(true);
 
   const navigation = useNavigation();
 
@@ -20,7 +21,7 @@ export const RegistrationForm = () => {
       try {
         await registerDB({ email, password, login });
         console.log(`Registration credentials: ${login}, ${email}, ${password}`);
-        navigation.navigate("Home", { screen: "PostsScreen" });
+        navigation.navigate("Home", { screen: "ProfileScreen" });
         resetStates(setLogin, setEmail, setPassword);
         setError(null);
       } catch (error) {
@@ -33,25 +34,29 @@ export const RegistrationForm = () => {
     }
   };
 
+  const onShowPassword = () => {
+    setsScureText((prev) => !prev);
+  };
+
   return (
     <View style={styles.inputBox}>
-      <TextInput value={login} onChangeText={setLogin} style={styles.input} placeholder="Логін" />
-      <TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder="Адреса електронної пошти" />
+      <TextInput value={login} onChangeText={setLogin} style={styles.input} placeholder="Login" />
+      <TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder="Email" />
       <View>
         <TextInput
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={secureText}
           style={styles.input}
-          placeholder="Пароль"
+          placeholder="Password"
         />
-        <Pressable style={styles.showButton}>
-          <Text>Показати</Text>
+        <Pressable style={styles.showButton} onPress={onShowPassword}>
+          <Text>{secureText ? "Show" : "Hide"}</Text>
         </Pressable>
       </View>
       {error && <Text style={styles.errorBadge}>{error}</Text>}
       <Pressable onPress={onRegister} style={styles.button}>
-        <Text style={styles.buttonText}>Зареєструватися</Text>
+        <Text style={styles.buttonText}>Sign up</Text>
       </Pressable>
     </View>
   );
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
   showButton: {
     position: "absolute",
     top: 16,
-    right: 16,
+    right: 24,
   },
   button: {
     marginTop: 16,

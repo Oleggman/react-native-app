@@ -56,17 +56,11 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
 
       <View style={styles.cardTitle}>
         <View style={styles.description}>
-          <Ionicons name="reader" size={24} color="#FF6C00" />
-          <Text style={[styles.descriptionText, { fontSize: 24 }]}>{post.postTitle}</Text>
-        </View>
-        <View style={styles.description}>
-          <Ionicons name="location" size={24} color="#FF6C00" />
-          <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
-        </View>
-        <View style={styles.description}>
           <Pressable onPress={onLikePress} style={[styles.description, { marginBottom: 0 }]}>
             {Like}
-            <Text style={styles.descriptionText}>{post.likes.length}</Text>
+            <Text style={styles.descriptionText}>
+              {post.likes.length} {post.likes.length === 1 ? "like" : "likes"}
+            </Text>
           </Pressable>
           {ownPost && (
             <Pressable
@@ -78,6 +72,14 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
             </Pressable>
           )}
         </View>
+        <View style={styles.description}>
+          <Ionicons name="reader" size={20} color="#FF6C00" />
+          <Text style={styles.descriptionText}>{post.postTitle}</Text>
+        </View>
+        <View style={styles.description}>
+          <Ionicons name="location" size={20} color="#FF6C00" />
+          <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
+        </View>
       </View>
     </View>
   );
@@ -86,20 +88,15 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    borderWidth: 2,
-    borderRadius: 20,
-    borderColor: "#FF6C00",
-    overflow: "hidden",
   },
-  //FIXME: fix 220px height for each photo
   photo: {
     width: "100%",
-    minHeight: 220,
+    height: 280,
     marginBottom: 12,
   },
   imagePlaceholder: {
     width: "100%",
-    height: 220,
+    height: 280,
     marginBottom: 12,
     backgroundColor: "darkgray",
   },

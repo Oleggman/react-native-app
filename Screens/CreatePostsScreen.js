@@ -78,12 +78,12 @@ export const CreatePostsScreen = () => {
     await createPost();
     Toast.show({
       type: "success",
-      text1: "Пост створено!",
+      text1: "Post was created!",
       topOffset: 64,
       text1Style: { fontSize: 20, color: "green" },
       visibilityTime: 3000,
     });
-    navigation.navigate("Профіль");
+    navigation.navigate("Profile");
     onResetPost();
   };
   //TODO: make all inputs required and unless this publish button disabled
@@ -99,16 +99,16 @@ export const CreatePostsScreen = () => {
           />
           <View>
             <View style={styles.inputBox}>
-              <TextInput value={postName} onChangeText={setPostName} style={styles.input} placeholder="Назва..." />
+              <TextInput value={postName} onChangeText={setPostName} style={styles.input} placeholder="Title..." />
               <Ionicons style={styles.icon} name="reader" size={16} color="#737373" />
             </View>
             <View style={styles.inputBox}>
-              <TextInput value={address} onChangeText={setAddress} style={styles.input} placeholder="Місцевість..." />
+              <TextInput value={address} onChangeText={setAddress} style={styles.input} placeholder="Location..." />
               <Ionicons style={styles.icon} name="location" size={16} color="#737373" />
             </View>
           </View>
           <Pressable onPress={onCreatePost} style={styles.button}>
-            <Text style={styles.buttonText}>Опублікувати</Text>
+            <Text style={styles.buttonText}>Publish</Text>
           </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>

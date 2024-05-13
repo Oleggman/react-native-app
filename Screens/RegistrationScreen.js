@@ -23,10 +23,12 @@ export const RegistrationScreen = () => {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View style={styles.container}>
             <AddPhotoBox style={styles.addPhotoBox} />
-            <Text style={styles.title}>Реєстрація</Text>
+            <Text style={styles.title}>Sign up</Text>
             <RegistrationForm />
             <Pressable onPress={() => navigation.navigate("LoginScreen")}>
-              <Text style={styles.loginBtn}>Вже є акаунт? Увійти</Text>
+              <Text style={styles.loginBtn}>
+                Already have an account? <Text style={styles.innerText}>Log in</Text>
+              </Text>
             </Pressable>
           </View>
         </KeyboardAvoidingView>
@@ -68,5 +70,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#1B4371",
     fontFamily: "Roboto400",
+  },
+  innerText: {
+    textDecorationLine: "underline",
   },
 });
