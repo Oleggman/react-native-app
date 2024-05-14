@@ -9,7 +9,7 @@ export const PostsScreen = () => {
 
   return (
     <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
-      <ScrollView>
+      <ScrollView style={styles.mainContainer}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <SearchUserForm setUserPosts={setUserPosts} setCurrentUser={setCurrentUser} />
@@ -22,8 +22,10 @@ export const PostsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    minHeight: Dimensions.get("window").height - 176,
+  mainContainer: {
     height: "100%",
+  },
+  container: {
+    minHeight: Dimensions.get("window").height,
   },
 });
