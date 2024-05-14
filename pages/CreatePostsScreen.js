@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { CameraContainer } from "../components/CameraContainer";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +21,7 @@ import { auth } from "../config";
 import { writeDataToFirestore } from "../db";
 import { getLocation } from "../utils/getLocation";
 import Toast from "react-native-toast-message";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const CreatePostsScreen = () => {
   const height = useHeaderHeight();
@@ -29,6 +31,7 @@ export const CreatePostsScreen = () => {
   const [address, setAddress] = useState("");
   const [postName, setPostName] = useState("");
   const [photoUri, setPhotoUri] = useState(null);
+  const [focusInput, setFocusInput] = useState("");
 
   const navigation = useNavigation();
 
@@ -102,27 +105,55 @@ export const CreatePostsScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={height}>
-        <ScrollView style={styles.container}>
-          <CameraContainer
-            onTakeShot={onTakeShot}
-            onResetPost={onResetPost}
-            photoUri={photoUri}
-            setPhotoUri={setPhotoUri}
-          />
-          <View>
-            <View style={styles.inputBox}>
-              <TextInput value={postName} onChangeText={setPostName} style={styles.input} placeholder="Title..." />
-              <Ionicons style={styles.icon} name="reader" size={16} color="#737373" />
+        <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
+          <ScrollView style={styles.container}>
+            <CameraContainer
+              onTakeShot={onTakeShot}
+              onResetPost={onResetPost}
+              photoUri={photoUri}
+              setPhotoUri={setPhotoUri}
+            />
+            <View>
+              <View style={styles.inputBox}>
+                <TextInput
+                  onFocus={() => setFocusInput("postName")}
+                  onBlur={() => setFocusInput("")}
+                  value={postName}
+                  onChangeText={setPostName}
+                  style={[styles.input, focusInput === "postName" && { borderBottomColor: "#263a43" }]}
+                  placeholder="Title..."
+                  placeholderTextColor="#737373"
+                />
+                <Ionicons
+                  style={styles.icon}
+                  name="reader"
+                  size={16}
+                  color={focusInput === "postName" ? "#263a43" : "#737373"}
+                />
+              </View>
+              <View style={styles.inputBox}>
+                <TextInput
+                  onFocus={() => setFocusInput("address")}
+                  onBlur={() => setFocusInput("")}
+                  value={address}
+                  onChangeText={setAddress}
+                  style={[styles.input, focusInput === "address" && { borderBottomColor: "#263a43" }]}
+                  placeholder="Location..."
+                  placeholderTextColor="#737373"
+                />
+                <Ionicons
+                  style={styles.icon}
+                  name="location"
+                  size={16}
+                  color={focusInput === "address" ? "#263a43" : "#737373"}
+                />
+              </View>
             </View>
-            <View style={styles.inputBox}>
-              <TextInput value={address} onChangeText={setAddress} style={styles.input} placeholder="Location..." />
-              <Ionicons style={styles.icon} name="location" size={16} color="#737373" />
-            </View>
-          </View>
-          <Pressable onPress={onCreatePost} style={isFormValid ? styles.button : [styles.button, { opacity: 0.6 }]}>
-            <Text style={styles.buttonText}>Publish</Text>
-          </Pressable>
-        </ScrollView>
+            <Pressable onPress={onCreatePost} style={isFormValid ? styles.button : [styles.button, { opacity: 0.6 }]}>
+              <Text style={styles.buttonText}>Publish</Text>
+            </Pressable>
+          </ScrollView>
+        </LinearGradient>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -133,6 +164,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingLeft: 24,
     paddingRight: 24,
+    minHeight: Dimensions.get("window").height,
   },
   inputBox: {
     position: "relative",
@@ -148,9 +180,10 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     paddingLeft: 20,
     borderBottomWidth: 2,
-    borderBottomColor: "#E8E8E8",
+    borderBottomColor: "#a0a0a0",
     fontSize: 16,
     fontFamily: "Roboto400",
+    color: "#263a43",
   },
   button: {
     marginTop: 24,

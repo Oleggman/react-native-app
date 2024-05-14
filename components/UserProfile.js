@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import Toast from "react-native-toast-message";
 
-export const UserProfile = ({ uid }) => {
+export const UserProfile = ({ text, uid }) => {
   const onCopyId = () => {
     Toast.show({
       type: "success",
@@ -16,21 +16,26 @@ export const UserProfile = ({ uid }) => {
   };
 
   return (
-    <View style={styles.profileContainer}>
-      <Text style={styles.profileIdText}>Your ID:</Text>
-      <TouchableOpacity onPress={onCopyId} style={styles.copyToClipboardButton}>
-        <Text style={[styles.profileId, { color: "#FFF" }]}>{uid}</Text>
-        <Ionicons name={"copy-outline"} size={24} color="#FFF" />
-      </TouchableOpacity>
+    <View style={{ alignItems: "center" }}>
+      <View style={styles.profileContainer}>
+        <Text style={styles.profileIdText}>{text}</Text>
+        <TouchableOpacity onPress={onCopyId} style={styles.copyToClipboardButton}>
+          <Text style={[styles.profileId, { color: "#FFF" }]}>{uid}</Text>
+          <Ionicons name={"copy-outline"} size={24} color="#FFF" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   profileContainer: {
-    paddingVertical: 32,
-    paddingHorizontal: 20,
+    marginVertical: 24,
+    paddingVertical: 24,
+    width: "90%",
+    borderRadius: 10,
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   profileIdText: {
     fontFamily: "Roboto700",

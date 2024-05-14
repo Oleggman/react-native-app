@@ -1,6 +1,7 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { PostItem } from "./PostItem";
 import { getPostsByUserFromFireStore } from "../db";
+import { UserProfile } from "./UserProfile";
 
 export const UserPosts = ({ posts, currentUser, setUserPosts }) => {
   const updateUserPosts = async () => {
@@ -10,8 +11,7 @@ export const UserPosts = ({ posts, currentUser, setUserPosts }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.profileIdText}>Posts of a user</Text>
-      <Text style={styles.profileId}>{currentUser}</Text>
+      <UserProfile text="Posts of a user" uid={currentUser} />
       <View style={styles.list}>
         {posts.map((post) => (
           <PostItem key={post.id} post={post.data} postId={post.id} getAllPostsByUser={updateUserPosts} />
@@ -30,17 +30,5 @@ const styles = StyleSheet.create({
     gap: 20,
     marginBottom: 48,
     justifyContent: "center",
-  },
-  profileIdText: {
-    fontFamily: "Roboto700",
-    fontSize: 24,
-    marginBottom: 12,
-    textAlign: "center",
-  },
-  profileId: {
-    fontFamily: "Roboto400",
-    fontSize: 20,
-    marginBottom: 24,
-    textAlign: "center",
   },
 });

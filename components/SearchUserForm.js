@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, Text, Pressable, KeyboardAvoidingView } fr
 import { getPostsByUserFromFireStore } from "../db";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
   const navigation = useNavigation();
@@ -30,28 +31,29 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
     setUserPosts(res);
   };
 
-  const onResetUser = () => {
-    setUserPosts(null);
+  const onClear = () => {
+    setSearchedUserId("");
   };
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <View style={styles.inputBox}>
-        <Text style={styles.searchUserText}>Search for users</Text>
         <TextInput
           value={searchedUserId}
           onChangeText={setSearchedUserId}
           style={styles.input}
-          placeholder="Enter user ID"
+          placeholder="Search for users"
+          placeholderTextColor="#c0c0c0"
+          cursorColor="#fff"
         />
-        <View style={styles.buttonsContainer}>
-          <Pressable onPress={onSearchUser} style={styles.button}>
-            <Text style={styles.buttonText}>Search</Text>
+        <Pressable style={styles.searchButton} onPress={onSearchUser}>
+          <FontAwesome name="search" size={24} color="white" />
+        </Pressable>
+        {searchedUserId !== "" && (
+          <Pressable style={styles.clearButton} onPress={onClear}>
+            <Entypo name="cross" size={24} color="white" />
           </Pressable>
-          <Pressable onPress={onResetUser} style={styles.button}>
-            <Text style={styles.buttonText}>Reset</Text>
-          </Pressable>
-        </View>
+        )}
       </View>
     </KeyboardAvoidingView>
   );
@@ -59,51 +61,32 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
 
 const styles = StyleSheet.create({
   inputBox: {
-    paddingTop: 28,
     alignItems: "center",
     alignItems: "center",
-    borderBottomWidth: 5,
-    borderBottomColor: "#FFF",
-  },
-  searchUserText: {
-    fontFamily: "Roboto700",
-    fontSize: 24,
-    marginBottom: 24,
+    position: "relative",
   },
   input: {
-    width: 343,
-    height: 50,
-    marginBottom: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#FF6C00",
-    paddingHorizontal: 20,
-    fontSize: 18,
-    color: "#333",
-    backgroundColor: "#FFF",
-    color: "#000",
-    fontFamily: "Roboto400",
-    fontSize: 16,
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    gap: 20,
-  },
-  button: {
-    marginTop: 16,
-    marginBottom: 16,
-    width: 160,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 32,
-    paddingRight: 32,
-    borderRadius: 20,
-    backgroundColor: "#FF6C00",
-  },
-  buttonText: {
+    width: "100%",
+    height: 60,
+    paddingHorizontal: 48,
+    borderColor: "#fff",
+    fontSize: 20,
     color: "#fff",
-    fontSize: 16,
+    backgroundColor: "#263a43",
     fontFamily: "Roboto400",
-    textAlign: "center",
+  },
+  searchButton: {
+    position: "absolute",
+    left: 12,
+    top: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clearButton: {
+    position: "absolute",
+    right: 12,
+    top: 16,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

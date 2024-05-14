@@ -45,7 +45,6 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
 
   return (
     <View style={styles.cameraContainer}>
-      {/* <Text style={styles.photoTitle}>Take a photo</Text> */}
       {photoUri ? (
         <Image style={styles.photo} source={{ uri: photoUri }} />
       ) : (
@@ -67,7 +66,6 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
           </View>
         </Camera>
       )}
-      {/* <Text style={styles.photoTitle}>Or choose it from library</Text> */}
       <View style={styles.buttons}>
         <TouchableOpacity
           style={[styles.secondaryBtn, { paddingTop: 12, paddingBottom: 12 }]}
@@ -76,7 +74,7 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
           }}>
           <View style={styles.actionButton}>
             <Text style={styles.choosePhotoText}>Choose photo</Text>
-            <MaterialIcons name="photo-library" size={24} color="#FF6C00" />
+            <MaterialIcons name="photo-library" size={24} color="#fff" />
           </View>
         </TouchableOpacity>
         <Pressable
@@ -87,7 +85,7 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
           style={styles.secondaryBtn}>
           <View style={styles.actionButton}>
             <Text style={styles.choosePhotoText}>Reset post</Text>
-            <Ionicons name="trash-bin" size={24} color="#FF6C00" />
+            <Ionicons name="trash-bin" size={24} color="#fff" />
           </View>
         </Pressable>
       </View>
@@ -113,18 +111,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   secondaryBtn: {
-    backgroundColor: "#fff",
+    backgroundColor: "#263a43",
     width: 168,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 50,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: "#FF6C00",
     justifyContent: "center",
   },
   choosePhotoText: {
-    color: "#FF6C00",
+    color: "#fff",
     fontFamily: "Roboto700",
     fontSize: 18,
   },
@@ -155,11 +151,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-  },
-  photoTitle: {
-    color: "#828282",
-    fontFamily: "Roboto400",
-    fontSize: 20,
-    marginBottom: 8,
   },
 });

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { ScrollView, StyleSheet, View, Text, Dimensions } from "react-native";
 import { PostItem } from "../components/PostItem";
 import { useEffect, useState } from "react";
 import { getPostsByUserFromFireStore } from "../db";
@@ -6,6 +6,7 @@ import { auth } from "../config";
 import { useNavigation } from "@react-navigation/native";
 import { UserProfile } from "../components/UserProfile";
 import Toast from "react-native-toast-message";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const ProfileScreen = () => {
   const [posts, setPosts] = useState(null);
@@ -40,37 +41,40 @@ export const ProfileScreen = () => {
   };
 
   return (
-    <ScrollView>
-      <UserProfile uid={auth.currentUser.uid} />
-      {posts && (
-        <View>
-          {posts?.length > 0 ? (
-            <View style={styles.list}>
-              {posts.map((post) => (
-                <PostItem
-                  key={post.id}
-                  post={post.data}
-                  postId={post.id}
-                  onDeletePost={onDeletePost}
-                  getAllPostsByUser={getAllPostsByUser}
-                  ownPost
-                />
-              ))}
-            </View>
-          ) : (
-            <View style={styles.container}>
-              <Text style={styles.errorBadge}>You do not have any posts. Fix it now and create your first post!</Text>
-            </View>
-          )}
-        </View>
-      )}
-    </ScrollView>
+    <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
+      <ScrollView>
+        <UserProfile text="Your id:" uid={auth.currentUser.uid} />
+        {posts && (
+          <View>
+            {posts?.length > 0 ? (
+              <View style={styles.list}>
+                {posts.map((post) => (
+                  <PostItem
+                    key={post.id}
+                    post={post.data}
+                    postId={post.id}
+                    onDeletePost={onDeletePost}
+                    getAllPostsByUser={getAllPostsByUser}
+                    ownPost
+                  />
+                ))}
+              </View>
+            ) : (
+              <View style={styles.container}>
+                <Text style={styles.errorBadge}>You do not have any posts. Fix it now and create your first post!</Text>
+              </View>
+            )}
+          </View>
+        )}
+      </ScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    minHeight: Dimensions.get("window").height - 350,
   },
   list: {
     flex: 1,

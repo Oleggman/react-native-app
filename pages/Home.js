@@ -33,7 +33,7 @@ export const Home = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "tomato",
+        activeTintColor: "#03a2b1",
         inactiveTintColor: "gray",
       }}>
       <Tabs.Screen name="Posts" component={PostsScreen} />
