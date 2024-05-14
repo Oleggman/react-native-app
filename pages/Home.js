@@ -6,7 +6,6 @@ import { CreatePostsScreen } from "./CreatePostsScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MapScreen } from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
 

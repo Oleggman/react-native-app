@@ -7,10 +7,13 @@ import { getLocation } from "../utils/getLocation";
 import { MaterialIcons } from "@expo/vector-icons";
 import { deletePost, pressLike } from "../db";
 import { auth } from "../config";
+import { useNavigation } from "@react-navigation/native";
 
 export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPost }) => {
   const [imageURL, setImageURL] = useState(null);
   const [location, setLocation] = useState(null);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getImageURL = async () => {
@@ -44,8 +47,18 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
     return <Ionicons name="heart-outline" size={24} color="black" />;
   }, [post.likes]);
 
+  const onLocationPress = () => {
+    if (location) {
+      navigation.navigate("Map", { location: post.location });
+    }
+  };
+
   return (
     <View style={styles.card}>
+      <Pressable onPress={onLocationPress} style={[styles.description, { paddingTop: 12 }]}>
+        <Ionicons name="location" size={20} color="#FF6C00" />
+        <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
+      </Pressable>
       <View>
         {imageURL ? (
           <Image style={styles.photo} source={{ uri: imageURL }} />
@@ -76,10 +89,6 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
           <Ionicons name="reader" size={20} color="#FF6C00" />
           <Text style={styles.descriptionText}>{post.postTitle}</Text>
         </View>
-        <View style={styles.description}>
-          <Ionicons name="location" size={20} color="#FF6C00" />
-          <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
-        </View>
       </View>
     </View>
   );
@@ -92,7 +101,6 @@ const styles = StyleSheet.create({
   photo: {
     width: "100%",
     height: 340 + 340 * 0.14,
-    marginBottom: 12,
   },
   imagePlaceholder: {
     width: "100%",
