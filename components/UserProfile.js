@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     paddingHorizontal: 20,
     alignItems: "center",
-    borderBottomWidth: 5,
-    borderBottomColor: "#FFF",
   },
   profileIdText: {
     fontFamily: "Roboto700",

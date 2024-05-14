@@ -2,10 +2,10 @@ import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { LoginScreen } from "./Screens/LoginScreen";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
-import { Home } from "./Screens/Home";
-import { MapScreen } from "./Screens/MapScreen";
+import { LoginScreen } from "./pages/LoginScreen";
+import { RegistrationScreen } from "./pages/RegistrationScreen";
+import { Home } from "./pages/Home";
+import { MapScreen } from "./pages/MapScreen";
 import Toast from "react-native-toast-message";
 
 const MainStack = createStackNavigator();

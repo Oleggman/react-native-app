@@ -74,7 +74,19 @@ export const CreatePostsScreen = () => {
     setPhotoUri(null);
   };
 
+  const isFormValid = postName !== "" && address !== "";
+
   const onCreatePost = async () => {
+    if (!isFormValid) {
+      return Toast.show({
+        type: "error",
+        text1: "Fill in all fields!",
+        topOffset: 64,
+        text1Style: { fontSize: 20, color: "red" },
+        visibilityTime: 3000,
+      });
+    }
+
     await createPost();
     Toast.show({
       type: "success",
@@ -86,7 +98,7 @@ export const CreatePostsScreen = () => {
     navigation.navigate("Profile");
     onResetPost();
   };
-  //TODO: make all inputs required and unless this publish button disabled
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={height}>
@@ -107,7 +119,7 @@ export const CreatePostsScreen = () => {
               <Ionicons style={styles.icon} name="location" size={16} color="#737373" />
             </View>
           </View>
-          <Pressable onPress={onCreatePost} style={styles.button}>
+          <Pressable onPress={onCreatePost} style={isFormValid ? styles.button : [styles.button, { opacity: 0.6 }]}>
             <Text style={styles.buttonText}>Publish</Text>
           </Pressable>
         </ScrollView>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Image, Pressable } from "react-native";
 import { Camera, requestCameraPermissionsAsync } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri }) => {
@@ -45,7 +45,7 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
 
   return (
     <View style={styles.cameraContainer}>
-      <Text style={styles.photoTitle}>Take a photo</Text>
+      {/* <Text style={styles.photoTitle}>Take a photo</Text> */}
       {photoUri ? (
         <Image style={styles.photo} source={{ uri: photoUri }} />
       ) : (
@@ -67,57 +67,72 @@ export const CameraContainer = ({ onTakeShot, onResetPost, photoUri, setPhotoUri
           </View>
         </Camera>
       )}
-      <Text style={styles.photoTitle}>Or choose it from library</Text>
-      <TouchableOpacity
-        style={[styles.secondaryBtn, { paddingTop: 12, paddingBottom: 12 }]}
-        onPress={() => {
-          ImagePick();
-        }}>
-        <Text style={styles.choosePhotoText}>Choose from library</Text>
-      </TouchableOpacity>
-      <Pressable
-        onPress={() => {
-          setPhotoUri(null);
-          onResetPost();
-        }}
-        style={styles.secondaryBtn}>
-        <Ionicons name="trash-bin" size={24} color="#FF6C00" />
-      </Pressable>
+      {/* <Text style={styles.photoTitle}>Or choose it from library</Text> */}
+      <View style={styles.buttons}>
+        <TouchableOpacity
+          style={[styles.secondaryBtn, { paddingTop: 12, paddingBottom: 12 }]}
+          onPress={() => {
+            ImagePick();
+          }}>
+          <View style={styles.actionButton}>
+            <Text style={styles.choosePhotoText}>Choose photo</Text>
+            <MaterialIcons name="photo-library" size={24} color="#FF6C00" />
+          </View>
+        </TouchableOpacity>
+        <Pressable
+          onPress={() => {
+            setPhotoUri(null);
+            onResetPost();
+          }}
+          style={styles.secondaryBtn}>
+          <View style={styles.actionButton}>
+            <Text style={styles.choosePhotoText}>Reset post</Text>
+            <Ionicons name="trash-bin" size={24} color="#FF6C00" />
+          </View>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   cameraContainer: {
+    paddingTop: 16,
     alignItems: "center",
   },
   camera: {
     width: 343,
-    height: 240,
+    height: 340,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   photo: {
     width: 343,
-    height: 240,
+    height: 340,
     borderRadius: 8,
     marginBottom: 16,
   },
   secondaryBtn: {
     backgroundColor: "#fff",
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 28,
-    paddingRight: 28,
+    width: 168,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
     borderRadius: 50,
     marginBottom: 16,
     borderWidth: 1,
     borderColor: "#FF6C00",
+    justifyContent: "center",
   },
   choosePhotoText: {
     color: "#FF6C00",
     fontFamily: "Roboto700",
     fontSize: 18,
+  },
+  actionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
   },
   photoView: {
     flex: 1,
@@ -136,10 +151,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "rgba(255, 255, 255, 0.30)",
   },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
   photoTitle: {
     color: "#828282",
     fontFamily: "Roboto400",
     fontSize: 20,
-    marginBottom: 16,
+    marginBottom: 8,
   },
 });

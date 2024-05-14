@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
   },
   photo: {
     width: "100%",
-    height: 280,
+    height: 340 + 340 * 0.14,
     marginBottom: 12,
   },
   imagePlaceholder: {
     width: "100%",
-    height: 280,
+    height: 340 + 340 * 0.14,
     marginBottom: 12,
     backgroundColor: "darkgray",
   },
