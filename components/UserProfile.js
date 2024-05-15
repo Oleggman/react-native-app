@@ -2,8 +2,12 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../redux/slices/authSlice";
 
 export const UserProfile = ({ text, uid }) => {
+  const userLogin = useSelector(selectLogin);
+
   const onCopyId = () => {
     Toast.show({
       type: "success",
@@ -12,7 +16,7 @@ export const UserProfile = ({ text, uid }) => {
       text1Style: { fontSize: 20, color: "green" },
       visibilityTime: 2000,
     });
-    Clipboard.setStringAsync(uid);
+    Clipboard.setStringAsync(userLogin ?? uid);
   };
 
   return (
@@ -20,7 +24,7 @@ export const UserProfile = ({ text, uid }) => {
       <View style={styles.profileContainer}>
         <Text style={styles.profileIdText}>{text}</Text>
         <TouchableOpacity onPress={onCopyId} style={styles.copyToClipboardButton}>
-          <Text style={[styles.profileId, { color: "#FFF" }]}>{uid}</Text>
+          <Text style={[styles.profileId, { color: "#FFF" }]}>{userLogin ?? uid}</Text>
           <Ionicons name={"copy-outline"} size={24} color="#FFF" />
         </TouchableOpacity>
       </View>

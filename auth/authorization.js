@@ -5,8 +5,20 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../config";
+import { getDocs, query, collection, where } from "firebase/firestore";
+import { db } from "../config";
 
-export const registerDB = ({ email, password }) => createUserWithEmailAndPassword(auth, email, password);
+export const registerDB = async ({ email, password, login }) => {
+  const querySnapshot = await getDocs(query(collection(db, "users"), where("login", "==", login)));
+
+  console.log(1);
+  if (!querySnapshot.empty) {
+    return false;
+  }
+  console.log(2);
+
+  return createUserWithEmailAndPassword(auth, email, password);
+};
 
 export const authStateChanged = async (onChange = () => {}) => {
   onAuthStateChanged((user) => {

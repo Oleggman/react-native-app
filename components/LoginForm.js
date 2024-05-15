@@ -4,7 +4,8 @@ import { isLoginValid } from "../utils/authValidation";
 import { loginDB } from "../auth/authorization";
 import { resetStates } from "../utils/resetStates";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/slices/authSlice";
+import { login as loginUser } from "../redux/slices/authSlice";
+import { getUserLogin } from "../db";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +22,8 @@ export const LoginForm = () => {
       try {
         await loginDB({ email, password });
         console.log(`Login credentials: ${email}, ${password}`);
-        dispatch(login());
+        const userLogin = await getUserLogin(email);
+        dispatch(loginUser(userLogin));
         resetStates(setEmail, setPassword);
         setError(null);
       } catch (error) {

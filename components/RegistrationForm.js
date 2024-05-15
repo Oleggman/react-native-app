@@ -1,27 +1,45 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { isRegisterValid } from "../utils/authValidation";
 import { registerDB } from "../auth/authorization";
 import { resetStates } from "../utils/resetStates";
+import { useDispatch } from "react-redux";
+import { login as loginUser } from "../redux/slices/authSlice";
+import { writeUserToFirestore } from "../db";
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ userPhoto }) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [secureText, setsScureText] = useState(true);
 
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const onRegister = async () => {
     setError(null);
 
     if (isRegisterValid(login, email, password, setError)) {
       try {
-        await registerDB({ email, password, login });
+        console.log(0);
+        const user = await registerDB({ email, password, login });
+        console.log(3);
+        if (!user) {
+          console.log(user);
+          throw new Error();
+        }
+        console.log(4);
+
+        await writeUserToFirestore({
+          userId: user.user.uid,
+          login,
+          email,
+          avatar: userPhoto,
+          posts: [],
+        });
+
         console.log(`Registration credentials: ${login}, ${email}, ${password}`);
-        navigation.navigate("Home", { screen: "ProfileScreen" });
+        dispatch(loginUser({ payload: login }));
         resetStates(setLogin, setEmail, setPassword);
         setError(null);
       } catch (error) {

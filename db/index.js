@@ -16,10 +16,27 @@ import { ref, uploadBytes, deleteObject } from "@firebase/storage";
 
 export const writeDataToFirestore = async (post) => {
   try {
-    const photoUrl = await uploadImageToFirebaseStorage(post.photoUri, `${post.postTitle}_${Date.now()}`);
+    const photoUrl = await uploadImageToFirebaseStorage(post.photoUri, `${post.postTitle}_${Date.now()}`, "images");
 
     const docRef = await addDoc(collection(db, "posts"), {
       ...post,
+      avatar: photoUrl,
+      createdAt: serverTimestamp(),
+    });
+
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    throw e;
+  }
+};
+
+export const writeUserToFirestore = async (user) => {
+  try {
+    const photoUrl = user.avatar ? await uploadImageToFirebaseStorage(user.avatar, `${user.login}`, "avatars") : null;
+
+    const docRef = await addDoc(collection(db, "users"), {
+      ...user,
       photoUri: photoUrl,
       createdAt: serverTimestamp(),
     });
@@ -29,6 +46,11 @@ export const writeDataToFirestore = async (post) => {
     console.error("Error adding document: ", e);
     throw e;
   }
+};
+
+export const getUserLogin = async (email) => {
+  const querySnapshot = await getDocs(query(collection(db, "users"), where("email", "==", email)));
+  return querySnapshot._snapshot.docs.keyedMap.root.value.data.value.mapValue.fields.login.stringValue;
 };
 
 export const getPostsByUserFromFireStore = async (userId) => {
@@ -46,11 +68,11 @@ export const getPostsByUserFromFireStore = async (userId) => {
   }
 };
 //FIXME: fix app crashing (possible place)
-export const uploadImageToFirebaseStorage = async (uri, imageName) => {
+export const uploadImageToFirebaseStorage = async (uri, imageName, storageFolder) => {
   try {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const photoRef = ref(storage, `images/${imageName}`);
+    const photoRef = ref(storage, `${storageFolder}/${imageName}`);
     await uploadBytes(photoRef, blob);
     return photoRef._location.path_;
   } catch (error) {
