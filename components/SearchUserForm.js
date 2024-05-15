@@ -62,7 +62,6 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
 const styles = StyleSheet.create({
   inputBox: {
     alignItems: "center",
-    alignItems: "center",
     position: "relative",
   },
   input: {

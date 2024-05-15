@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   container: {
-    minHeight: Dimensions.get("window").height,
+    minHeight: Dimensions.get("window").height - 320,
   },
 });

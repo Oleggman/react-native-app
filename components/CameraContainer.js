@@ -150,6 +150,6 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
+    width: 343,
   },
 });

@@ -32,12 +32,13 @@ export const CreatePostsScreen = () => {
   const [postName, setPostName] = useState("");
   const [photoUri, setPhotoUri] = useState(null);
   const [focusInput, setFocusInput] = useState("");
+  const [processing, setProcessing] = useState(false);
 
   const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestPermissionsAsync();
+      let { status } = await Location.requestForegroundPermissionsAsync();
       setStatus(status);
       if (status !== "granted") {
         alert("Permission to access location was denied");
@@ -62,6 +63,8 @@ export const CreatePostsScreen = () => {
   };
 
   const createPost = async () => {
+    if (processing) return;
+    setProcessing(true);
     await writeDataToFirestore({
       photoUri,
       postTitle: postName,
@@ -69,6 +72,7 @@ export const CreatePostsScreen = () => {
       location: location,
       owner: auth.currentUser.uid,
     });
+    setProcessing(false);
   };
 
   const onResetPost = () => {
@@ -113,7 +117,7 @@ export const CreatePostsScreen = () => {
               photoUri={photoUri}
               setPhotoUri={setPhotoUri}
             />
-            <View>
+            <View style={styles.form}>
               <View style={styles.inputBox}>
                 <TextInput
                   onFocus={() => setFocusInput("postName")}
@@ -148,10 +152,10 @@ export const CreatePostsScreen = () => {
                   color={focusInput === "address" ? "#263a43" : "#737373"}
                 />
               </View>
+              <Pressable onPress={onCreatePost} style={isFormValid ? styles.button : [styles.button, { opacity: 0.6 }]}>
+                <Text style={styles.buttonText}>Publish</Text>
+              </Pressable>
             </View>
-            <Pressable onPress={onCreatePost} style={isFormValid ? styles.button : [styles.button, { opacity: 0.6 }]}>
-              <Text style={styles.buttonText}>Publish</Text>
-            </Pressable>
           </ScrollView>
         </LinearGradient>
       </KeyboardAvoidingView>
@@ -165,6 +169,9 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingRight: 24,
     minHeight: Dimensions.get("window").height,
+  },
+  form: {
+    alignItems: "center",
   },
   inputBox: {
     position: "relative",
@@ -187,7 +194,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 24,
-    marginBottom: 16,
     width: 343,
     paddingTop: 16,
     paddingBottom: 16,

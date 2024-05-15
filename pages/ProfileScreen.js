@@ -14,7 +14,7 @@ export const ProfileScreen = () => {
   const navigation = useNavigation();
 
   const getAllPostsByUser = async () => {
-    const posts = await getPostsByUserFromFireStore(auth.currentUser.uid);
+    const posts = await getPostsByUserFromFireStore(auth?.currentUser?.uid);
     setPosts(posts);
   };
 
@@ -43,7 +43,7 @@ export const ProfileScreen = () => {
   return (
     <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
       <ScrollView style={styles.mainContainer}>
-        <UserProfile text="Your id:" uid={auth.currentUser.uid} />
+        <UserProfile text="Your id:" uid={auth?.currentUser?.uid} />
         {posts && (
           <View>
             {posts?.length > 0 ? (

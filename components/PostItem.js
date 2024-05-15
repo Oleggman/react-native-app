@@ -42,9 +42,9 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
 
   const Like = useMemo(() => {
     if (post.likes.includes(auth.currentUser.uid)) {
-      return <Ionicons name="heart-sharp" size={24} color="#FF6C00" />;
+      return <Ionicons name="heart-sharp" size={24} color="#FFF" />;
     }
-    return <Ionicons name="heart-outline" size={24} color="black" />;
+    return <Ionicons name="heart-outline" size={24} color="#FFF" />;
   }, [post.likes]);
 
   const onLocationPress = () => {
@@ -55,9 +55,9 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
 
   return (
     <View style={styles.card}>
-      <Pressable onPress={onLocationPress} style={[styles.description, { paddingTop: 12 }]}>
-        <Ionicons name="location" size={20} color="#FF6C00" />
-        <Text style={styles.descriptionText}>{location ? location : "Location"}</Text>
+      <Pressable onPress={onLocationPress} style={[styles.description, { paddingTop: 12, paddingLeft: 12 }]}>
+        <Ionicons name="location" size={20} color="#FFF" />
+        <Text style={[styles.descriptionText, { fontSize: 14 }]}>{location ? location : "Location"}</Text>
       </Pressable>
       <View>
         {imageURL ? (
@@ -81,12 +81,12 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
                 deletePost(postId, post.photoUri);
                 onDeletePost(postId);
               }}>
-              <MaterialIcons name="delete" size={28} color="#FF6C00" />
+              <MaterialIcons name="delete" size={28} color="#FFF" />
             </Pressable>
           )}
         </View>
         <View style={styles.description}>
-          <Ionicons name="reader" size={20} color="#FF6C00" />
+          <Ionicons name="reader" size={20} color="#FFF" />
           <Text style={styles.descriptionText}>{post.postTitle}</Text>
         </View>
       </View>
@@ -96,7 +96,8 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#FFFFFF",
+    borderRadius: 5,
+    backgroundColor: "#263a43",
   },
   photo: {
     width: "100%",
@@ -117,9 +118,11 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     padding: 12,
+    color: "#FFF",
   },
   descriptionText: {
     fontSize: 18,
+    color: "#FFF",
     fontFamily: "Roboto400",
   },
 });

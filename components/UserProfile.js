@@ -35,12 +35,13 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 10,
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#263a43",
   },
   profileIdText: {
     fontFamily: "Roboto700",
     fontSize: 24,
     marginBottom: 12,
+    color: "#FFF",
   },
   profileId: {
     fontFamily: "Roboto400",

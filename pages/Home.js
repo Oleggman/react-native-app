@@ -1,16 +1,17 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { PostsScreen } from "./PostsScreen";
 import { CreatePostsScreen } from "./CreatePostsScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/slices/authSlice";
 
 const Tabs = createBottomTabNavigator();
 
 export const Home = () => {
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <Tabs.Navigator
@@ -18,6 +19,8 @@ export const Home = () => {
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         headerTitleAlign: "center",
+        activeTintColor: "#03a2b1",
+        inactiveTintColor: "gray",
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
@@ -30,11 +33,7 @@ export const Home = () => {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-      })}
-      tabBarOptions={{
-        activeTintColor: "#03a2b1",
-        inactiveTintColor: "gray",
-      }}>
+      })}>
       <Tabs.Screen name="Posts" component={PostsScreen} />
       <Tabs.Screen name="Create a post" component={CreatePostsScreen} />
       <Tabs.Screen
@@ -42,7 +41,11 @@ export const Home = () => {
         component={ProfileScreen}
         options={{
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("LoginScreen")} style={{ marginRight: 16 }}>
+            <Pressable
+              onPress={() => {
+                dispatch(logout());
+              }}
+              style={{ marginRight: 16 }}>
               <MaterialIcons name="logout" size={24} />
             </Pressable>
           ),

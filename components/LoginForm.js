@@ -1,9 +1,10 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { isLoginValid } from "../utils/authValidation";
 import { loginDB } from "../auth/authorization";
 import { resetStates } from "../utils/resetStates";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/slices/authSlice";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export const LoginForm = () => {
   const [error, setError] = useState(null);
   const [secureText, setsScureText] = useState(true);
 
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const onLogin = async () => {
     setError(null);
@@ -20,7 +21,7 @@ export const LoginForm = () => {
       try {
         await loginDB({ email, password });
         console.log(`Login credentials: ${email}, ${password}`);
-        navigation.navigate("Home", { screen: "ProfileScreen" });
+        dispatch(login());
         resetStates(setEmail, setPassword);
         setError(null);
       } catch (error) {
