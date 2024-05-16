@@ -1,4 +1,4 @@
-import { ScrollView, View, TouchableWithoutFeedback, Keyboard, StyleSheet, Dimensions } from "react-native";
+import { ScrollView, View, StyleSheet, Dimensions } from "react-native";
 import { SearchUserForm } from "../components/SearchUserForm";
 import { useState } from "react";
 import { UserPosts } from "../components/UserPosts";
@@ -10,23 +10,21 @@ export const PostsScreen = () => {
 
   return (
     <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
-      <ScrollView style={styles.mainContainer}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <SearchUserForm setUserPosts={setUserPosts} setCurrentUser={setCurrentUser} />
-            {userPosts && <UserPosts posts={userPosts} currentUser={currentUser} setUserPosts={setUserPosts} />}
-          </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+      <View style={styles.container}>
+        <SearchUserForm setUserPosts={setUserPosts} setCurrentUser={setCurrentUser} />
+        <ScrollView style={styles.mainContainer}>
+          {userPosts && <UserPosts posts={userPosts} currentUser={currentUser} setUserPosts={setUserPosts} />}
+        </ScrollView>
+      </View>
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
-    height: "100%",
+    minHeight: Dimensions.get("window").height - 320,
   },
   container: {
-    minHeight: Dimensions.get("window").height - 320,
+    height: "100%",
   },
 });

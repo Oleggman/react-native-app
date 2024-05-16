@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, Platform } from "react-native";
 import { useState, useEffect, useMemo } from "react";
 import { ref, getDownloadURL } from "@firebase/storage";
 import { storage } from "../config";
@@ -48,7 +48,7 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
   }, [post.likes]);
 
   const onLocationPress = () => {
-    if (location) {
+    if (location && Platform.OS !== "android") {
       navigation.navigate("Map", { location: post.location });
     }
   };

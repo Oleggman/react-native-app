@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { PostItem } from "./PostItem";
 import { getPostsByUserFromFireStore } from "../db";
 import { UserProfile } from "./UserProfile";
@@ -13,21 +13,23 @@ export const UserPosts = ({ posts, currentUser, setUserPosts }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <UserProfile login={currentUser} setAvatar={setAvatar} />
-      <View style={styles.list}>
-        {posts.map((post) => (
-          <PostItem
-            key={post.id}
-            post={post.data}
-            postId={post.id}
-            getAllPostsByUser={updateUserPosts}
-            login={currentUser}
-            avatar={avatar}
-          />
-        ))}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <UserProfile login={currentUser} setAvatar={setAvatar} />
+        <View style={styles.list}>
+          {posts.map((post) => (
+            <PostItem
+              key={post.id}
+              post={post.data}
+              postId={post.id}
+              getAllPostsByUser={updateUserPosts}
+              login={currentUser}
+              avatar={avatar}
+            />
+          ))}
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    gap: 20,
+    gap: 40,
     marginBottom: 48,
     justifyContent: "center",
   },

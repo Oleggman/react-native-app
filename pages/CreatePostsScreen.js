@@ -111,7 +111,7 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={height}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : ""} keyboardVerticalOffset={height}>
         <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
           <ScrollView style={styles.container}>
             <CameraContainer
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingLeft: 24,
     paddingRight: 24,
-    minHeight: Dimensions.get("window").height,
+    paddingBottom: 24,
   },
   form: {
     alignItems: "center",
