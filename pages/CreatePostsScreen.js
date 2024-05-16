@@ -17,11 +17,12 @@ import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import { useHeaderHeight } from "@react-navigation/elements";
-import { auth } from "../config";
 import { writeDataToFirestore } from "../db";
 import { getLocation } from "../utils/getLocation";
 import Toast from "react-native-toast-message";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../redux/slices/authSlice";
 
 export const CreatePostsScreen = () => {
   const height = useHeaderHeight();
@@ -35,6 +36,8 @@ export const CreatePostsScreen = () => {
   const [processing, setProcessing] = useState(false);
 
   const navigation = useNavigation();
+
+  const login = useSelector(selectLogin);
 
   useEffect(() => {
     (async () => {
@@ -70,7 +73,7 @@ export const CreatePostsScreen = () => {
       postTitle: postName,
       likes: [],
       location: location,
-      owner: auth.currentUser.uid,
+      owner: login,
     });
     setProcessing(false);
   };

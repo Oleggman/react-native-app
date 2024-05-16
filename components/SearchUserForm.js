@@ -8,9 +8,10 @@ import { FontAwesome, Entypo } from "@expo/vector-icons";
 export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
   const navigation = useNavigation();
 
-  const [searchedUserId, setSearchedUserId] = useState("");
+  const [searchedUser, setSearchedUser] = useState("");
+
   const onSearchUser = async () => {
-    const res = await getPostsByUserFromFireStore(searchedUserId);
+    const res = await getPostsByUserFromFireStore(searchedUser);
     if (!res?.length) {
       Toast.show({
         type: "error",
@@ -25,21 +26,21 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
     }
 
     navigation.navigate("Posts", { userPosts: res });
-    setCurrentUser(searchedUserId);
-    setSearchedUserId("");
+    setCurrentUser(searchedUser);
+    setSearchedUser("");
     setUserPosts(res);
   };
 
   const onClear = () => {
-    setSearchedUserId("");
+    setSearchedUser("");
   };
-
+  //TODO: Fix searchbar
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <View style={styles.inputBox}>
         <TextInput
-          value={searchedUserId}
-          onChangeText={setSearchedUserId}
+          value={searchedUser}
+          onChangeText={setSearchedUser}
           style={styles.input}
           placeholder="Search for users"
           placeholderTextColor="#c0c0c0"
@@ -48,7 +49,7 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
         <Pressable style={styles.searchButton} onPress={onSearchUser}>
           <FontAwesome name="search" size={24} color="white" />
         </Pressable>
-        {searchedUserId !== "" && (
+        {searchedUser !== "" && (
           <Pressable style={styles.clearButton} onPress={onClear}>
             <Entypo name="cross" size={24} color="white" />
           </Pressable>

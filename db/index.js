@@ -78,9 +78,9 @@ export const getUserAvatar = async (login) => {
   return querySnapshot?._snapshot?.docs?.keyedMap?.root?.value?.data?.value?.mapValue?.fields?.avatar?.stringValue;
 };
 
-export const getPostsByUserFromFireStore = async (userId) => {
+export const getPostsByUserFromFireStore = async (login) => {
   try {
-    const querySnapshot = await getDocs(query(collection(db, "posts"), where("owner", "==", userId)));
+    const querySnapshot = await getDocs(query(collection(db, "posts"), where("owner", "==", login)));
     const posts = [];
     querySnapshot.forEach((doc) => {
       posts.push({ id: doc.id, data: doc.data() });

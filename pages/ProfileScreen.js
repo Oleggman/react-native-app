@@ -2,7 +2,6 @@ import { ScrollView, StyleSheet, View, Text, Dimensions } from "react-native";
 import { PostItem } from "../components/PostItem";
 import { useEffect, useState } from "react";
 import { getPostsByUserFromFireStore } from "../db";
-import { auth } from "../config";
 import { useNavigation } from "@react-navigation/native";
 import { UserProfile } from "../components/UserProfile";
 import Toast from "react-native-toast-message";
@@ -19,7 +18,7 @@ export const ProfileScreen = () => {
   const login = useSelector(selectLogin);
 
   const getAllPostsByUser = async () => {
-    const posts = await getPostsByUserFromFireStore(auth?.currentUser?.uid);
+    const posts = await getPostsByUserFromFireStore(login);
     setPosts(posts);
   };
 
@@ -48,7 +47,7 @@ export const ProfileScreen = () => {
   return (
     <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
       <ScrollView style={styles.mainContainer}>
-        <UserProfile uid={auth?.currentUser?.uid} setAvatar={setAvatar} />
+        <UserProfile setAvatar={setAvatar} />
         {posts && (
           <View>
             {posts?.length > 0 ? (
