@@ -7,11 +7,16 @@ import { useNavigation } from "@react-navigation/native";
 import { UserProfile } from "../components/UserProfile";
 import Toast from "react-native-toast-message";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../redux/slices/authSlice";
 
 export const ProfileScreen = () => {
   const [posts, setPosts] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   const navigation = useNavigation();
+
+  const login = useSelector(selectLogin);
 
   const getAllPostsByUser = async () => {
     const posts = await getPostsByUserFromFireStore(auth?.currentUser?.uid);
@@ -43,7 +48,7 @@ export const ProfileScreen = () => {
   return (
     <LinearGradient colors={["rgba(3, 166, 181, 0.3)", "rgba(0, 189, 136, 0.3)", "rgba(45, 181, 142, 0.3)"]}>
       <ScrollView style={styles.mainContainer}>
-        <UserProfile uid={auth?.currentUser?.uid} />
+        <UserProfile uid={auth?.currentUser?.uid} setAvatar={setAvatar} />
         {posts && (
           <View>
             {posts?.length > 0 ? (
@@ -55,6 +60,8 @@ export const ProfileScreen = () => {
                     postId={post.id}
                     onDeletePost={onDeletePost}
                     getAllPostsByUser={getAllPostsByUser}
+                    avatar={avatar}
+                    login={login}
                     ownPost
                   />
                 ))}

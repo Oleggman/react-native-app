@@ -9,7 +9,7 @@ import { deletePost, pressLike } from "../db";
 import { auth } from "../config";
 import { useNavigation } from "@react-navigation/native";
 
-export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPost }) => {
+export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPost, avatar, login }) => {
   const [imageURL, setImageURL] = useState(null);
   const [location, setLocation] = useState(null);
 
@@ -52,9 +52,17 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
       navigation.navigate("Map", { location: post.location });
     }
   };
-  //TODO: Redesign - add avatar and login above location
+
   return (
     <View style={styles.card}>
+      <View style={{ paddingTop: 12, paddingLeft: 8, flexDirection: "row", alignItems: "center", gap: 12 }}>
+        {avatar ? (
+          <Image style={styles.avatarPhoto} source={{ uri: avatar }} />
+        ) : (
+          <View style={styles.avatarPlaceholder} />
+        )}
+        <Text style={[styles.descriptionText, { fontSize: 14 }]}>{login}</Text>
+      </View>
       <Pressable onPress={onLocationPress} style={[styles.description, { paddingTop: 12, paddingLeft: 12 }]}>
         <Ionicons name="location" size={20} color="#FFF" />
         <Text style={[styles.descriptionText, { fontSize: 14 }]}>{location ? location : "Location"}</Text>
@@ -63,7 +71,7 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
         {imageURL ? (
           <Image style={styles.photo} source={{ uri: imageURL }} />
         ) : (
-          <View style={styles.imagePlaceholder} />
+          <View style={styles.avatarPlaceholder} />
         )}
       </View>
 
@@ -102,6 +110,17 @@ const styles = StyleSheet.create({
   photo: {
     width: "100%",
     height: 340 + 340 * 0.14,
+  },
+  avatarPhoto: {
+    width: 28,
+    height: 28,
+    borderRadius: 50,
+  },
+  avatarPlaceholder: {
+    width: 28,
+    height: 28,
+    borderRadius: 50,
+    backgroundColor: "gray",
   },
   imagePlaceholder: {
     width: "100%",

@@ -11,7 +11,7 @@ import { getUserAvatar, writeAvatarToFirestore } from "../db";
 import { ref, getDownloadURL } from "@firebase/storage";
 import { storage } from "../config";
 
-export const UserProfile = ({ uid, login }) => {
+export const UserProfile = ({ uid, login, setAvatar }) => {
   const userLogin = useSelector(selectLogin);
   const [userPhoto, setUserPhoto] = useState(null);
 
@@ -23,6 +23,7 @@ export const UserProfile = ({ uid, login }) => {
         const photoRef = ref(storage, photoPath);
         const url = await getDownloadURL(photoRef);
         setUserPhoto(url);
+        setAvatar(url);
       } catch (error) {
         console.error("Error getting image URL:", error);
       }
@@ -44,6 +45,7 @@ export const UserProfile = ({ uid, login }) => {
         //FIXME: Error uploading avatar to Firebase Storage: [TypeError: Network request failed]
         // await writeAvatarToFirestore(result.assets[0].uri);
         setUserPhoto(result.assets[0].uri);
+        setAvatar(result.assets[0].uri);
       }
     } catch (error) {
       console.log(error);
