@@ -3,6 +3,7 @@ import { SearchUserForm } from "../components/SearchUserForm";
 import { useState } from "react";
 import { UserPosts } from "../components/UserPosts";
 import { LinearGradient } from "expo-linear-gradient";
+
 export const PostsScreen = () => {
   const [userPosts, setUserPosts] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);

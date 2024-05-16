@@ -13,24 +13,24 @@ export const RegistrationForm = ({ userPhoto }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [secureText, setsScureText] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const dispatch = useDispatch();
 
   const onRegister = async () => {
+    if (isProcessing) return;
+
     setError(null);
 
     if (isRegisterValid(login, email, password, setError)) {
+      setIsProcessing(true);
       try {
-        console.log(0);
         const user = await registerDB({ email, password, login });
-        console.log(3);
         if (!user) {
-          console.log(user);
-          throw new Error();
+          throw new Error("Login exists");
         }
-        console.log(4);
 
-        await writeUserToFirestore({
+        const id = await writeUserToFirestore({
           userId: user.user.uid,
           login,
           email,
@@ -39,15 +39,19 @@ export const RegistrationForm = ({ userPhoto }) => {
         });
 
         console.log(`Registration credentials: ${login}, ${email}, ${password}`);
-        dispatch(loginUser({ payload: login }));
+        dispatch(loginUser({ login, id }));
         resetStates(setLogin, setEmail, setPassword);
         setError(null);
       } catch (error) {
         setError(
           error.message === "Firebase: Error (auth/email-already-in-use)."
             ? "This account is already in use"
+            : error.message === "Login exists"
+            ? "Such login already exists"
             : "Registration error"
         );
+      } finally {
+        setIsProcessing(false);
       }
     }
   };

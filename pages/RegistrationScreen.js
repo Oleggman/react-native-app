@@ -40,7 +40,6 @@ export const RegistrationScreen = () => {
     }
   };
 
-  //FIXME: not always form resets after navigation
   return (
     <ImageBackground source={bg} style={styles.mainBg}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

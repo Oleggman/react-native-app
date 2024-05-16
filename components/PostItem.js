@@ -52,7 +52,7 @@ export const PostItem = ({ post, getAllPostsByUser, postId, onDeletePost, ownPos
       navigation.navigate("Map", { location: post.location });
     }
   };
-
+  //TODO: Redesign - add avatar and login above location
   return (
     <View style={styles.card}>
       <Pressable onPress={onLocationPress} style={[styles.description, { paddingTop: 12, paddingLeft: 12 }]}>

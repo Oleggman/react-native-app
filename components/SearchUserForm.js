@@ -9,7 +9,6 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
   const navigation = useNavigation();
 
   const [searchedUserId, setSearchedUserId] = useState("");
-  //TODO: search posts by user login
   const onSearchUser = async () => {
     const res = await getPostsByUserFromFireStore(searchedUserId);
     if (!res?.length) {

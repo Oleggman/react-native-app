@@ -1,17 +1,59 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Pressable, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import Toast from "react-native-toast-message";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../redux/slices/authSlice";
+import * as ImagePicker from "expo-image-picker";
+import { useState, useEffect } from "react";
+import AddPhotoBox from "./AddPhotoBox";
+import { getUserAvatar, writeAvatarToFirestore } from "../db";
+import { ref, getDownloadURL } from "@firebase/storage";
+import { storage } from "../config";
 
-export const UserProfile = ({ text, uid }) => {
+export const UserProfile = ({ uid, login }) => {
   const userLogin = useSelector(selectLogin);
+  const [userPhoto, setUserPhoto] = useState(null);
+
+  useEffect(() => {
+    const getImageURL = async () => {
+      try {
+        const photoPath = await getUserAvatar(userLogin);
+        if (!photoPath) return;
+        const photoRef = ref(storage, photoPath);
+        const url = await getDownloadURL(photoRef);
+        setUserPhoto(url);
+      } catch (error) {
+        console.error("Error getting image URL:", error);
+      }
+    };
+
+    getImageURL();
+  }, []);
+
+  const ImagePick = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        //FIXME: Error uploading avatar to Firebase Storage: [TypeError: Network request failed]
+        // await writeAvatarToFirestore(result.assets[0].uri);
+        setUserPhoto(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onCopyId = () => {
     Toast.show({
       type: "success",
-      text1: "ID copied!",
+      text1: "Name copied!",
       topOffset: 64,
       text1Style: { fontSize: 20, color: "green" },
       visibilityTime: 2000,
@@ -22,10 +64,26 @@ export const UserProfile = ({ text, uid }) => {
   return (
     <View style={{ alignItems: "center" }}>
       <View style={styles.profileContainer}>
-        <Text style={styles.profileIdText}>{text}</Text>
+        <View style={{ marginBottom: 20 }}>
+          {userPhoto ? (
+            <Pressable
+              onPress={() => {
+                ImagePick();
+              }}>
+              <Image style={styles.photo} source={{ uri: userPhoto }} />
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={() => {
+                ImagePick();
+              }}>
+              <AddPhotoBox />
+            </Pressable>
+          )}
+        </View>
         <TouchableOpacity onPress={onCopyId} style={styles.copyToClipboardButton}>
           <Text style={[styles.profileId, { color: "#FFF" }]}>{userLogin ?? uid}</Text>
-          <Ionicons name={"copy-outline"} size={24} color="#FFF" />
+          <Ionicons name={"copy-outline"} size={28} color="#FFF" />
         </TouchableOpacity>
       </View>
     </View>
@@ -36,20 +94,19 @@ const styles = StyleSheet.create({
   profileContainer: {
     marginVertical: 24,
     paddingVertical: 24,
-    width: "90%",
+    paddingHorizontal: 36,
     borderRadius: 10,
     alignItems: "center",
     backgroundColor: "#263a43",
   },
-  profileIdText: {
-    fontFamily: "Roboto700",
-    fontSize: 24,
-    marginBottom: 12,
-    color: "#FFF",
+  photo: {
+    width: 160,
+    height: 160,
+    borderRadius: 10,
   },
   profileId: {
     fontFamily: "Roboto400",
-    fontSize: 16,
+    fontSize: 28,
     color: "#FF6C00",
   },
   copyToClipboardButton: {

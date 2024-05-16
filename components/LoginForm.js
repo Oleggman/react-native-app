@@ -22,8 +22,8 @@ export const LoginForm = () => {
       try {
         await loginDB({ email, password });
         console.log(`Login credentials: ${email}, ${password}`);
-        const userLogin = await getUserLogin(email);
-        dispatch(loginUser(userLogin));
+        const user = await getUserLogin(email);
+        dispatch(loginUser(user));
         resetStates(setEmail, setPassword);
         setError(null);
       } catch (error) {

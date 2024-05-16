@@ -20,7 +20,7 @@ export const writeDataToFirestore = async (post) => {
 
     const docRef = await addDoc(collection(db, "posts"), {
       ...post,
-      avatar: photoUrl,
+      photoUri: photoUrl,
       createdAt: serverTimestamp(),
     });
 
@@ -37,20 +37,45 @@ export const writeUserToFirestore = async (user) => {
 
     const docRef = await addDoc(collection(db, "users"), {
       ...user,
-      photoUri: photoUrl,
+      avatar: photoUrl,
       createdAt: serverTimestamp(),
     });
-
     console.log("Document written with ID: ", docRef.id);
+    console.log(docRef.data);
+    return docRef.id;
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e;
   }
 };
 
+export const writeAvatarToFirestore = async (login, avatar, id) => {
+  try {
+    const photoUrl = await uploadImageToFirebaseStorage(avatar, `${login}`, "avatars");
+    const ref = doc(db, "users", id);
+
+    await updateDoc(ref, {
+      avatar: photoUrl,
+    });
+
+    console.log("Avatar written");
+  } catch (e) {
+    console.error("Error adding avatar: ", e);
+    throw e;
+  }
+};
+
 export const getUserLogin = async (email) => {
   const querySnapshot = await getDocs(query(collection(db, "users"), where("email", "==", email)));
-  return querySnapshot._snapshot.docs.keyedMap.root.value.data.value.mapValue.fields.login.stringValue;
+  return {
+    login: querySnapshot._snapshot.docs.keyedMap.root.value.data.value.mapValue.fields.login.stringValue,
+    id: querySnapshot._snapshot.docs.keyedMap.root.value.data.value.mapValue.fields.userId.stringValue,
+  };
+};
+
+export const getUserAvatar = async (login) => {
+  const querySnapshot = await getDocs(query(collection(db, "users"), where("login", "==", login)));
+  return querySnapshot?._snapshot?.docs?.keyedMap?.root?.value?.data?.value?.mapValue?.fields?.avatar?.stringValue;
 };
 
 export const getPostsByUserFromFireStore = async (userId) => {
@@ -67,7 +92,7 @@ export const getPostsByUserFromFireStore = async (userId) => {
     throw error;
   }
 };
-//FIXME: fix app crashing (possible place)
+
 export const uploadImageToFirebaseStorage = async (uri, imageName, storageFolder) => {
   try {
     const response = await fetch(uri);
