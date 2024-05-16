@@ -34,7 +34,7 @@ export const SearchUserForm = ({ setUserPosts, setCurrentUser }) => {
   const onClear = () => {
     setSearchedUser("");
   };
-  //TODO: Fix searchbar
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <View style={styles.inputBox}>

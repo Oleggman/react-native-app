@@ -4,6 +4,7 @@ import Toast from "react-native-toast-message";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/store";
 import AppNavigator from "./navigators/appNavigator";
+import { LogBox } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,3 +24,5 @@ export default function App() {
     </Provider>
   );
 }
+
+LogBox.ignoreAllLogs();
